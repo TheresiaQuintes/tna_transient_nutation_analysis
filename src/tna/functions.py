@@ -1,6 +1,8 @@
 import numpy as np
 import scipy as sp
 from statsmodels.tsa.ar_model import AutoReg, ar_select_order
+from pydantic import BaseModel, Field
+from typing import Optional
 
 
 class TransientNutations:
@@ -44,6 +46,9 @@ class TransientNutations:
         self.freq_signal = None
         self.t = None
         self.freq = None
+
+# TODO
+# Loader für specatalog-hdf5 hinzufügen
 
     def load_2d(self, filename: str, prodel=False):
         """
@@ -446,7 +451,7 @@ class TransientNutations:
         return
 
 
-class Parameters():
+class OldParameters():
     """
     Create a set of parameters to control the correction of transient nutation
     data.
@@ -544,3 +549,47 @@ class Parameters():
         self.reference_freq_value = 1e7
 
         self.save_location = None
+
+
+
+
+class Parameters(BaseModel):
+    model_config = {
+        "frozen": True,
+        "extra": "forbid"
+    }
+    current_time: float = 0
+    current_field: float = 12020
+
+    prodel: bool = False
+    two_d: bool = True
+    path: Optional[str] = None
+
+    baseline_correction: bool = False
+    baseline_correction_deg: int = 1
+    reconstruction: bool = False
+    mean_subtraction: bool = False
+
+    wdw_chebwin: bool = False
+    chebwin_attenuation: float = 45
+
+    wdw_hamming: bool = False
+    hamming_window_coefficient: float = 0.54
+
+    wdw_kaiser: bool = False
+    kaiser_window_shape_parameter: float = 2
+
+    wdw_sinebell: bool = False
+    sinebell_phase_shift: float = 0
+
+    wdw_lorentz_gauss: bool = False
+    tau: float = 170
+    sigma: float = 0.003
+
+    zero_filling: bool = False
+    zero_filling_factor: float = 2
+
+    reference_freq: bool = False
+    reference_freq_value: float = 1e7
+
+    save_location: Optional[str] = None

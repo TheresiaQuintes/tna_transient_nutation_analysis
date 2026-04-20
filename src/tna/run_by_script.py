@@ -9,10 +9,12 @@ Created on Tue Jan 31 10:52:36 2023
 import functions as fun
 import matplotlib.pyplot as plt
 
+params = fun.Parameters(current_time=2)
+
 # Variablen
 prodel = False
 two_d = True
-path = "/home/quintes/NAS/Theresia/transient_nutations/data/21_07_13_14_esenut_vs_B_LV_trinagulene_2_5mM_5eq_14dB_VG9_noAmp_h4n2_120K/test"
+path = "/home/quintes/NAS/Theresia/programme/transient_nutations/data/21_07_13_14_esenut_vs_B_LV_trinagulene_2_5mM_5eq_14dB_VG9_noAmp_h4n2_120K/test"
 
 baseline_correction = 0
 reconstruction = False
