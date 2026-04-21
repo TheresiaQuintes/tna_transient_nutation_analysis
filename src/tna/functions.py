@@ -587,7 +587,7 @@ class Parameters(BaseModel):
     sigma: float = 0.003
 
     zero_filling: bool = False
-    zero_filling_factor: float = 2
+    zero_filling_factor: int = 2
 
     reference_freq: bool = False
     reference_freq_value: float = 1e7
