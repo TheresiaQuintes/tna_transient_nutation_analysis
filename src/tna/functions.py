@@ -82,10 +82,11 @@ def run_tna_2d(data_path: Path, params: cl.Parameters) -> cl.TransientNutations:
     """
     data = cl.TransientNutations()
 
+    # loading
     data.load_2d(data_path, params.prodel)
 
+    # process & transform each field slice
     ft_spc = []
-
     for i in range(len(data.field)):
         data.t_signal = data.spc[i]
         data.t = data.time
@@ -98,7 +99,6 @@ def run_tna_2d(data_path: Path, params: cl.Parameters) -> cl.TransientNutations:
         ft_spc.append(data.freq_signal)
 
     data.freq_signal = np.array(ft_spc)
-
     return  data
 
 def _resolve_fourier_params(params: cl.Parameters) -> tuple[int, float]:
@@ -195,25 +195,3 @@ def _apply_processing(data: cl.TransientNutations, params: cl.Parameters):
 
     if params.mean_subtraction:
         data.mean_subtraction()
-
-
-
-p = cl.Parameters(
-    current_field=12020,
-    wdw_lorentz_gauss=True,
-    tau=530/3,
-    sigma=1/(2*(530/3)),
-    zero_filling = True,
-    zero_filling_factor = 2,
-    reference_freq = True,
-    baseline_correction=True,
-    reconstruction=True,
-)
-
-path = Path("/home/quintes/NAS/Theresia/programme/transient_nutations/data/21_07_13_14_esenut_vs_B_LV_trinagulene_2_5mM_5eq_14dB_VG9_noAmp_h4n2_120K/test")
-
-d= run_tna_2d(path, p)
-
-plt.plot(d.freq, d.freq_signal[90])
-plt.show()
-
