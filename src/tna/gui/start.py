@@ -1,11 +1,8 @@
 from PyQt5 import QtWidgets
-from PyQt5 import QtGui
-from PyQt5.QtGui import QKeySequence
-from PyQt5.QtWidgets import QShortcut
-import tna.GUI as GUI
+import tna.gui.GUI as GUI
 import sys
-import tna.gui_signals as sgn
-import tna.functions as fun
+import tna.gui.gui_signals as sgn
+import tna.classes as fun
 #import funktionen as fun
 #import signals as sg
 #import time as time

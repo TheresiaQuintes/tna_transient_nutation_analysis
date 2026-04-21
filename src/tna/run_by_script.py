@@ -6,7 +6,7 @@ Created on Tue Jan 31 10:52:36 2023
 @author: quintes
 """
 
-import functions as fun
+import classes as fun
 import matplotlib.pyplot as plt
 
 params = fun.Parameters(current_time=2)
