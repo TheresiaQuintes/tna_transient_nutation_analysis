@@ -68,11 +68,11 @@ class TransientNutations:
         None.
 
         """
-        if not filename.exists():
-            raise FileNotFoundError(f"File not found: {filename}")
-
         dta_file = filename.with_suffix(".DTA")
         dsc_file = filename.with_suffix(".DSC")
+
+        if not dta_file.exists() or not dsc_file.exists():
+            raise FileNotFoundError(f"File not found: {filename}")
 
         with dta_file.open("rb") as f:
             intensities = np.fromfile(f, dtype=np.dtype('>f8'))
@@ -158,6 +158,9 @@ class TransientNutations:
         """
         dta_file = filename.with_suffix(".DTA")
         dsc_file = filename.with_suffix(".DSC")
+
+        if not dta_file.exists() or not dsc_file.exists():
+            raise FileNotFoundError(f"File not found: {filename}")
 
         with dta_file.open("rb") as f:
             intensities = np.fromfile(f, dtype=np.dtype('>f8'))
@@ -534,13 +537,14 @@ class Parameters(BaseModel):
 
     Notes
     -----
-    This class is immutable (frozen=True) and disallows additional attributes
-    (extra="forbid") to ensure reproducibility and prevent silent configuration
-    errors in scientific processing pipelines.
+    This class is validates the type of the fields (validate_assignment="True")
+    and disallows additional attributes (extra="forbid") to ensure
+    reproducibility and prevent silent configuration errors in scientific
+    processing pipelines.
     """
 
     model_config = {
-        "frozen": True,
+        "validate_assignment": True,
         "extra": "forbid"
     }
     current_time: float = 0
