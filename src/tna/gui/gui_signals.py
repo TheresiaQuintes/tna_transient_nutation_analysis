@@ -6,6 +6,56 @@ from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavTool
 import matplotlib.pyplot as plt
 import numpy as np
 import pickle
+import tna.classes as cl
+
+
+def safe_slot(func):
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception:
+            error_msg = traceback.format_exc()
+            print(error_msg)
+            QMessageBox.critical(None, "Error", error_msg)
+    return wrapper
+
+def reset_plot(fig, ax):
+    fig.clear()
+    ax.cla()
+    ax = fig.add_subplot(111)
+    return ax
+
+class TNAController:
+    ##### Nächster Schritt: Methoden hinzufügen
+    def __init__(self, view):
+        self.view = view
+        self.data = cl.TransientNutations()
+        self.par = cl.Parameters()
+
+        gui_init_plot_1(self, self.view.plot_area_1)
+        gui_init_plot_2(self, self.view.plot_area_2)
+
+    def connect_signals(self):
+        # update spinboxes
+        self.view.show_experimental_button.clicked.connect(lambda: update_spinboxes(self))
+        self.view.load_data_button.clicked.connect(lambda: update_spinboxes(self))
+        self.view.one_d_button.clicked.connect(lambda: update_spinboxes(self))
+        self.view.two_d_button.clicked.connect(lambda: update_spinboxes(self))
+        self.view.save_button.clicked.connect(lambda: update_spinboxes(self))
+
+        # update checkboxes
+        self.view.load_data_button.clicked.connect(lambda: update_checkboxes(self))
+        self.view.one_d_button.clicked.connect(lambda: update_checkboxes(self))
+        self.view.two_d_button.clicked.connect(lambda: update_checkboxes(self))
+        self.view.save_button.clicked.connect(lambda: update_checkboxes(self))
+        self.view.one_d_radio.toggled.connect(lambda: update_dimension(self))
+
+        # start functions
+        self.view.show_experimental_button.clicked.connect(lambda: click_show_experimental_button(self))
+        self.view.load_data_button.clicked.connect(lambda: click_load_data_button(self))
+        self.view.one_d_button.clicked.connect(lambda: click_one_d_button(self))
+        self.view.two_d_button.clicked.connect(lambda: click_two_d_button(self))
+        self.view.save_button.clicked.connect(lambda: click_save_button(self))
 
 
 def gui_init_plot_1(self, plot_window: QtWidgets.QWidget):
@@ -22,13 +72,13 @@ def gui_init_plot_1(self, plot_window: QtWidgets.QWidget):
     None.
 
     """
-    self.figure1 = plt.figure(tight_layout=True)
-    self.canvas_1 = FigCan(self.figure1)
-    self.toolbar1 = NavTool(self.canvas_1, self)
+    self.view.figure1 = plt.figure(tight_layout=True)
+    self.view.canvas_1 = FigCan(self.view.figure1)
+    self.toolbar1 = NavTool(self.view.canvas_1, self.view)
     layout = QtWidgets.QVBoxLayout(plot_window)
     layout.addWidget(self.toolbar1)
-    layout.addWidget(self.canvas_1)
-    self.ax1 = self.figure1.add_subplot(111)
+    layout.addWidget(self.view.canvas_1)
+    self.view.ax1 = self.view.figure1.add_subplot(111)
     # self.setLayout(layout)
 
 
@@ -46,37 +96,15 @@ def gui_init_plot_2(self, plot_window: QtWidgets.QWidget):
     None.
 
     """
-    self.figure2 = plt.figure(tight_layout=True)
-    self.canvas_2 = FigCan(self.figure2)
-    self.toolbar2 = NavTool(self.canvas_2, self)
+    self.view.figure2 = plt.figure(tight_layout=True)
+    self.view.canvas_2 = FigCan(self.view.figure2)
+    self.toolbar2 = NavTool(self.view.canvas_2, self.view)
     layout = QtWidgets.QVBoxLayout(plot_window)
     layout.addWidget(self.toolbar2)
-    layout.addWidget(self.canvas_2)
-    self.ax2 = self.figure2.add_subplot(111)
+    layout.addWidget(self.view.canvas_2)
+    self.view.ax2 = self.view.figure2.add_subplot(111)
     # self.setLayout(layout)
 
-
-def gui_connections(self):
-    # update spinboxes
-    self.show_experimental_button.clicked.connect(lambda: update_spinboxes(self))
-    self.load_data_button.clicked.connect(lambda: update_spinboxes(self))
-    self.one_d_button.clicked.connect(lambda: update_spinboxes(self))
-    self.two_d_button.clicked.connect(lambda: update_spinboxes(self))
-    self.save_button.clicked.connect(lambda: update_spinboxes(self))
-
-    # update checkboxes
-    self.load_data_button.clicked.connect(lambda: update_checkboxes(self))
-    self.one_d_button.clicked.connect(lambda: update_checkboxes(self))
-    self.two_d_button.clicked.connect(lambda: update_checkboxes(self))
-    self.save_button.clicked.connect(lambda: update_checkboxes(self))
-    self.one_d_radio.toggled.connect(lambda: update_dimension(self))
-
-    # start functions
-    self.show_experimental_button.clicked.connect(lambda: click_show_experimental_button(self))
-    self.load_data_button.clicked.connect(lambda: click_load_data_button(self))
-    self.one_d_button.clicked.connect(lambda: click_one_d_button(self))
-    self.two_d_button.clicked.connect(lambda: click_two_d_button(self))
-    self.save_button.clicked.connect(lambda: click_save_button(self))
 
 
 def click_load_data_button(self):
@@ -86,7 +114,7 @@ def click_load_data_button(self):
     options |= QFileDialog.DontUseNativeDialog
     dialog = QFileDialog()
     dialog.setFileMode(3)
-    dateien = dialog.getOpenFileNames(self, "Datei wählen", options=options)[0]
+    dateien = dialog.getOpenFileNames(self.view, "Datei wählen", options=options)[0]
     if len(dateien) == 1:
         self.par.path = dateien[0][:-4]
         loading_one_file(self)
@@ -110,34 +138,29 @@ def click_load_data_button(self):
     try:
         if self.par.two_d is True:
             plt.close(plt.gcf())
-            self.figure1.clear()
-            self.ax1.cla()
-            self.ax1 = self.figure1.add_subplot(111)
+            self.view.ax1 = reset_plot(self.view.figure1, self.view.ax1)
             field, time = np.meshgrid(self.data.field, self.data.time)
-            self.ax1.pcolormesh(field, time, self.data.spc.T)
-            self.ax1.contour(field, time, self.data.spc.T, colors='k')
-            self.canvas_1.draw()
+            self.view.ax1.pcolormesh(field, time, self.data.spc.T)
+            self.view.ax1.contour(field, time, self.data.spc.T, colors='k')
+            self.view.canvas_1.draw()
 
             plt.close(plt.gcf())
-            self.figure2.clear()
-            self.ax2.cla()
-            self.ax2 = self.figure2.add_subplot(111)
+            self.view.ax2 = reset_plot(self.view.figure2, self.view.ax2)
             time_point = (np.abs(self.data.time - self.par.current_time)).argmin()
-            self.ax2.plot(self.data.field, self.data.spc[:, time_point])
-            self.canvas_2.draw()
+            self.view.ax2.plot(self.data.field, self.data.spc[:, time_point])
+            self.view.canvas_2.draw()
 
         elif self.par.two_d is False:
-            plt.close(plt.gcf())
-            self.figure1.clear()
-            self.ax1.cla()
-            self.ax1 = self.figure1.add_subplot(111)
-            self.ax1.plot(self.data.t, self.data.t_signal)
-            self.canvas_1.draw()
+            try:
+                plt.close(plt.gcf())
+                self.view.ax1 = reset_plot(self.view.figure1, self.view.ax1)
+                self.view.ax1.plot(self.data.t, self.data.t_signal)
+                self.view.canvas_1.draw()
 
-            plt.close(plt.gcf())
-            self.figure2.clear()
-            self.ax2.cla()
-            self.ax2 = self.figure2.add_subplot(111)
+                plt.close(plt.gcf())
+                self.view.ax2 = reset_plot(self.view.figure2, self.view.ax2)
+            except ValueError:
+                pass
 
     except AttributeError:
         return
@@ -149,7 +172,7 @@ def loading_one_file(self):
             self.data.choose_field(self.par.current_field)
 
 
-            self.show_experimental_button.setEnabled(True)
+            self.view.show_experimental_button.setEnabled(True)
 
         except UnboundLocalError:
             info = QMessageBox()
@@ -162,12 +185,20 @@ def loading_one_file(self):
         try:
             self.data.load_1d(self.par.path, self.par.prodel)
 
+            if len(self.data.spc.shape) == 1:
+                info = QMessageBox()
+                info.setText("Please choose a  1 dimensional dataset.")
+                info.setWindowTitle("Can not open dataset")
+                info.exec()
+
+
+
         except ValueError:
-            info = QMessageBox()
-            info.setText("Please choose a  1 dimensional dataset.")
-            info.setWindowTitle("Can not open dataset")
-            info.exec()
-            return
+                info = QMessageBox()
+                info.setText("Please choose a  1 dimensional dataset.")
+                info.setWindowTitle("Can not open dataset")
+                info.exec()
+                return
 
 
 def click_show_experimental_button(self):
@@ -180,20 +211,16 @@ def click_show_experimental_button(self):
             time_point = (np.abs(self.data.time - self.par.current_time)).argmin()
 
             plt.close(plt.gcf())
-            self.figure1.clear()
-            self.ax1.cla()
-            self.ax1 = self.figure1.add_subplot(111)
+            self.view.ax1 = reset_plot(self.view.figure1, self.view.ax1)
             field, time = np.meshgrid(self.data.field, self.data.time)
-            self.ax1.pcolormesh(field, time, self.data.spc.T)
-            self.ax1.contour(field, time, self.data.spc.T, colors='k')
-            self.canvas_1.draw()
+            self.view.ax1.pcolormesh(field, time, self.data.spc.T)
+            self.view.ax1.contour(field, time, self.data.spc.T, colors='k')
+            self.view.canvas_1.draw()
 
             plt.close(plt.gcf())
-            self.figure2.clear()
-            self.ax2.cla()
-            self.ax2 = self.figure2.add_subplot(111)
-            self.ax2.plot(self.data.field, self.data.spc[:, time_point])
-            self.canvas_2.draw()
+            self.view.ax2 = reset_plot(self.view.figure2, self.view.ax2)
+            self.view.ax2.plot(self.data.field, self.data.spc[:, time_point])
+            self.view.canvas_2.draw()
 
         except FileNotFoundError:
             info = QMessageBox()
@@ -210,11 +237,9 @@ def click_show_experimental_button(self):
     elif self.par.two_d is False:
         try:
             plt.close(plt.gcf())
-            self.figure1.clear()
-            self.ax1.cla()
-            self.ax1 = self.figure1.add_subplot(111)
-            self.ax1.plot(self.data.t, self.data.t_signal)
-            self.canvas_1.draw()
+            self.view.ax1 = reset_plot(self.view.figure1, self.view.ax1)
+            self.view.ax1.plot(self.data.t, self.data.t_signal)
+            self.view.canvas_1.draw()
 
         except FileNotFoundError:
             info = QMessageBox()
@@ -269,18 +294,14 @@ def click_one_d_button(self):
             self.par.zero_filling_factor, self.par.reference_freq_value)
 
     plt.close(plt.gcf())
-    self.figure1.clear()
-    self.ax1.cla()
-    self.ax1 = self.figure1.add_subplot(111)
-    self.ax1.plot(self.data.t, self.data.t_signal)
-    self.canvas_1.draw()
+    self.view.ax1 = reset_plot(self.view.figure1, self.view.ax1)
+    self.view.ax1.plot(self.data.t, self.data.t_signal)
+    self.view.canvas_1.draw()
 
     plt.close(plt.gcf())
-    self.figure2.clear()
-    self.ax2.cla()
-    self.ax2 = self.figure2.add_subplot(111)
-    self.ax2.plot(self.data.freq, self.data.freq_signal)
-    self.canvas_2.draw()
+    self.view.ax2 = reset_plot(self.view.figure2, self.view.ax2)
+    self.view.ax2.plot(self.data.freq, self.data.freq_signal)
+    self.view.canvas_2.draw()
 
 
 def click_two_d_button(self):
@@ -323,13 +344,11 @@ def click_two_d_button(self):
     self.data.ft_spc = np.array(ft_spc)
 
     plt.close(plt.gcf())
-    self.figure1.clear()
-    self.ax1.cla()
-    self.ax1 = self.figure1.add_subplot(111)
+    self.view.ax1 = reset_plot(self.view.figure1, self.view.ax1)
     field, freq = np.meshgrid(self.data.field, self.data.freq)
-    self.ax1.pcolormesh(field, freq, self.data.ft_spc.T)
-    self.ax1.contour(field, freq, self.data.ft_spc.T, colors='k')
-    self.canvas_1.draw()
+    self.view.ax1.pcolormesh(field, freq, self.data.ft_spc.T)
+    self.view.ax1.contour(field, freq, self.data.ft_spc.T, colors='k')
+    self.view.canvas_1.draw()
 
 
 def click_save_button(self):
@@ -349,91 +368,91 @@ def click_save_button(self):
 
 
 def update_checkboxes(self):
-    if self.baseline_correction_check.isChecked():
+    if self.view.baseline_correction_check.isChecked():
         self.par.baseline_correction = True
     else:
         self.par.baseline_correction = False
 
-    if self.reconstruction_check.isChecked():
+    if self.view.reconstruction_check.isChecked():
         self.par.reconstruction = True
     else:
         self.par.reconstruction = False
 
-    if self.mean_subtraction_check.isChecked():
+    if self.view.mean_subtraction_check.isChecked():
         self.par.mean_subtraction = True
     else:
         self.par.mean_subtraction = False
 
-    if self.zero_filling_check.isChecked():
+    if self.view.zero_filling_check.isChecked():
         self.par.zero_filling = True
     else:
         self.par.zero_filling = False
 
-    if self.reference_frequency_check.isChecked():
+    if self.view.reference_frequency_check.isChecked():
         self.par.reference_freq = True
     else:
         self.par.reference_freq = False
         self.par.reference_freq_value = 1
 
-    if self.dolph_chebyshev_check.isChecked():
+    if self.view.dolph_chebyshev_check.isChecked():
         self.par.wdw_chebwin = True
     else:
         self.par.wdw_chebwin = False
 
-    if self.hamming_check.isChecked():
+    if self.view.hamming_check.isChecked():
         self.par.wdw_hamming = True
     else:
         self.par.wdw_hamming = False
 
-    if self.kaiser_check.isChecked():
+    if self.view.kaiser_check.isChecked():
         self.par.wdw_kaiser = True
     else:
         self.par.wdw_kaiser = False
 
-    if self.lorentz_gauss_check.isChecked():
+    if self.view.lorentz_gauss_check.isChecked():
         self.par.wdw_lorentz_gauss = True
     else:
         self.par.wdw_lorentz_gauss = False
 
-    if self.sinebell_check.isChecked():
+    if self.view.sinebell_check.isChecked():
         self.par.wdw_sinebell = True
     else:
         self.par.wdw_sinebell = False
 
-    if self.prodel_check.isChecked():
+    if self.view.prodel_check.isChecked():
         self.par.prodel = True
     else:
         self.par.prodel = False
 
 
 def update_dimension(self):
-    if self.one_d_radio.isChecked():
-        self.show_experimental_button.setEnabled(False)
-        self.two_d_button.setEnabled(False)
-        self.prodel_check.setEnabled(False)
-        self.time_point_box.setEnabled(False)
-        self.field_point_box.setEnabled(False)
+    if self.view.one_d_radio.isChecked():
+        self.view.show_experimental_button.setEnabled(False)
+        self.view.two_d_button.setEnabled(False)
+        self.view.prodel_check.setEnabled(False)
+        self.view.time_point_box.setEnabled(False)
+        self.view.field_point_box.setEnabled(False)
         self.par.two_d = False
-    elif self.two_d_radio.isChecked():
-        self.two_d_button.setEnabled(True)
-        self.prodel_check.setEnabled(True)
-        self.time_point_box.setEnabled(True)
-        self.field_point_box.setEnabled(True)
+    elif self.view.two_d_radio.isChecked():
+        self.view.two_d_button.setEnabled(True)
+        self.view.prodel_check.setEnabled(True)
+        self.view.time_point_box.setEnabled(True)
+        self.view.field_point_box.setEnabled(True)
         self.par.two_d = True
 
 
 def update_spinboxes(self):
-    self.par.current_field = self.field_point_box.value()
-    self.par.current_time = self.time_point_box.value()
+    self.par.current_field = self.view.field_point_box.value()
+    self.par.current_time = self.view.time_point_box.value()
 
-    self.par.baseline_correction_deg = self.baseline_value_box.value()
-    self.par.zero_filling_factor = self.zero_filling_value_box.value()
+    self.par.baseline_correction_deg = self.view.baseline_value_box.value()
+    self.par.zero_filling_factor = self.view.zero_filling_value_box.value()
     self.par.reference_freq_value =\
-        self.reference_frequency_value_box.value()*1e6
+        self.view.reference_frequency_value_box.value()*1e6
 
-    self.par.chebwin_attenuation = self.dolph_chebyshev_value_box.value()
-    self.par.hamming_window_coefficient = self.hamming_value_box.value()
-    self.par.kaiser_window_shape_parameter = self.kaiser_value_box.value()
-    self.par.sinebell_phase_shift = self.sinebell_value_box.value()
-    self.par.tau = self.lorentz_gauss_tau_value_box.value()
-    self.par.sigma = self.lorentz_gauss_sigma_value_box.value()
+    self.par.chebwin_attenuation = self.view.dolph_chebyshev_value_box.value()
+    self.par.hamming_window_coefficient = self.view.hamming_value_box.value()
+    self.par.kaiser_window_shape_parameter = self.view.kaiser_value_box.value()
+    self.par.sinebell_phase_shift = self.view.sinebell_value_box.value()
+    self.par.tau = self.view.lorentz_gauss_tau_value_box.value()
+    self.par.sigma = self.view.lorentz_gauss_sigma_value_box.value()

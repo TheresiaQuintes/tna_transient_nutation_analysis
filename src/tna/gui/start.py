@@ -6,6 +6,7 @@ import tna.classes as fun
 import traceback
 
 def excepthook(exc_type, exc_value, exc_tb):
+    # TODO: Logger statt print
     traceback.print_exception(exc_type, exc_value, exc_tb)
     sys.__excepthook__(exc_type, exc_value, exc_tb)
 
@@ -16,11 +17,8 @@ class MainWindow(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
     def __init__(self):
         super(self.__class__, self).__init__()
         self.setupUi(self)
-        self.data = fun.TransientNutations()
-        self.par = fun.Parameters()
-        sgn.gui_init_plot_1(self, self.plot_area_1)
-        sgn.gui_init_plot_2(self, self.plot_area_2)
-        sgn.gui_connections(self)
+        self.controller = sgn.TNAController(self)
+        self.controller.connect_signals()
 
 
 
