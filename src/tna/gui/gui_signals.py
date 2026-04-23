@@ -11,7 +11,21 @@ import traceback
 
 
 class TNAController:
+    """
+    Controller class for the TNA GUI application.
+
+    This class connects the GUI (view) with the data structures (model)
+    and manages all user interactions as well as data processing pipelines.
+
+    """
     def __init__(self, view):
+        """
+        Parameters
+        ----------
+        view : object
+            GUI object (view) containing the Qt widgets.
+
+        """
         self.view = view
         self.data = cl.TransientNutations()
         self.par = cl.Parameters()
@@ -20,6 +34,16 @@ class TNAController:
         self.gui_init_plot_2(view.plot_area_2)
 
     def connect_signals(self):
+        """
+        Connects GUI signals to the corresponding controller methods.
+
+        Includes:
+
+        - Checkbox and spinbox updates
+        - Button actions
+        - Dimension switching (1D / 2D)
+
+        """
         # update spinboxes
         self.view.show_experimental_button.clicked.connect(safe_slot(self.update_spinboxes))
         self.view.load_data_button.clicked.connect(safe_slot(self.update_spinboxes))
@@ -42,7 +66,17 @@ class TNAController:
         self.view.save_button.clicked.connect(safe_slot(self.click_save_button))
 
     def click_load_data_button(self, *args):
-        plt.style.use("style.mplstyle")
+        """
+        Loads one or more data files via a file dialog.
+
+        If multiple files are selected, their data is summed.
+
+        Parameters
+        ----------
+        *args : tuple
+            Dummy arguments for Qt signals.
+
+        """
 
         dateien, _ = QFileDialog.getOpenFileNames(
             self.view,
@@ -99,6 +133,15 @@ class TNAController:
             return
 
     def loading_one_file(self):
+        """
+        Loads a single file depending on the selected dimensionality (1D/2D).
+
+        Raises
+        ------
+        QMessageBox
+            If an incorrect dataset type is selected (1D vs 2D mismatch).
+
+        """
         if self.par.two_d:
             try:
                 self.data.load_2d(self.par.path, self.par.prodel)
@@ -131,8 +174,15 @@ class TNAController:
                 return
 
     def click_show_experimental_button(self, *args):
-        plt.style.use("style.mplstyle")
+        """
+        Displays the loaded raw data in the plots.
 
+        Parameters
+        ----------
+        *args : tuple
+            Dummy arguments for Qt signals.
+
+        """
         if self.par.two_d:
             try:
                 self.data.choose_field(self.par.current_field)
@@ -183,7 +233,20 @@ class TNAController:
                 info.exec()
 
     def click_one_d_button(self, *args):
+        """
+        Executes the 1D data processing pipeline.
 
+        Includes:
+        - Pre-processing (filters, window functions, baseline correction, etc.)
+        - Fourier transformation
+        - Plot updates
+
+        Parameters
+        ----------
+        *args : tuple
+            Dummy arguments for Qt signals.
+
+        """
         if self.par.two_d:
             self.data.choose_field(self.par.current_field)
         else:
@@ -231,6 +294,18 @@ class TNAController:
         self.view.canvas_2.draw()
 
     def click_two_d_button(self, *args):
+        """
+        Performs 2D data processing.
+
+        Applies the 1D processing pipeline for each field and then constructs
+        a 2D frequency spectrum.
+
+        Parameters
+        ----------
+        *args : tuple
+            Dummy arguments for Qt signals.
+
+        """
 
         self.click_one_d_button()
 
@@ -280,6 +355,15 @@ class TNAController:
         self.view.canvas_1.draw()
 
     def click_save_button(self, *args):
+        """
+        Saves the current data and parameters as pickle files.
+
+        Parameters
+        ----------
+        *args : tuple
+            Dummy arguments for Qt signals.
+
+        """
         options = QFileDialog.Option.DontUseNativeDialog
         datei, _ = QFileDialog.getSaveFileName(
             self.view, "Speichern unter", options=options)
@@ -295,6 +379,15 @@ class TNAController:
             pickle.dump(vars(self.par), file)
 
     def update_checkboxes(self, *args):
+        """
+        Synchronizes GUI checkboxes with the parameter object.
+
+        Parameters
+        ----------
+        *args : tuple
+            Dummy arguments for Qt signals.
+
+        """
         mapping = {
             "baseline_correction_check": "baseline_correction",
             "reconstruction_check": "reconstruction",
@@ -317,6 +410,17 @@ class TNAController:
             self.par.reference_freq_value = 1
 
     def update_dimension(self, *args):
+        """
+        Switches between 1D and 2D mode.
+
+        Enables or disables the corresponding GUI elements.
+
+        Parameters
+        ----------
+        *args : tuple
+            Dummy arguments for Qt signals.
+
+        """
         if self.view.one_d_radio.isChecked():
             self.view.show_experimental_button.setEnabled(False)
             self.view.two_d_button.setEnabled(False)
@@ -332,6 +436,15 @@ class TNAController:
             self.par.two_d = True
 
     def update_spinboxes(self, *args):
+        """
+        Updates parameters from GUI spinbox values.
+
+        Parameters
+        ----------
+        *args : tuple
+            Dummy arguments for Qt signals.
+
+        """
         self.par.current_field = self.view.field_point_box.value()
         self.par.current_time = self.view.time_point_box.value()
 
@@ -350,17 +463,16 @@ class TNAController:
 
     def gui_init_plot_1(self, plot_window: QtWidgets.QWidget):
         """
-        Initialize the matplotlib widget for the first main window.
+        Initializes the first Matplotlib plot widget.
 
         Parameters
         ----------
         plot_window : QtWidgets.QWidget
-            QWidget which will be used as the plot area.
+            Widget container for plot 1.
 
         Returns
         -------
-        None.
-
+        None
         """
         self.view.figure1 = plt.figure(tight_layout=True)
         self.view.canvas_1 = FigCan(self.view.figure1)
@@ -370,19 +482,18 @@ class TNAController:
         layout.addWidget(self.view.canvas_1)
         self.view.ax1 = self.view.figure1.add_subplot(111)
 
-
     def gui_init_plot_2(self, plot_window: QtWidgets.QWidget):
         """
-        Initialize the matplotlib widget for the first main window.
+        Initializes the second Matplotlib plot widget.
 
         Parameters
         ----------
         plot_window : QtWidgets.QWidget
-            QWidget which will be used as the plot area.
+            Widget container for plot 2.
 
         Returns
         -------
-        None.
+        None
 
         """
         self.view.figure2 = plt.figure(tight_layout=True)
@@ -394,6 +505,22 @@ class TNAController:
         self.view.ax2 = self.view.figure2.add_subplot(111)
 
 def safe_slot(func):
+    """
+    Decorator for safe execution of Qt slots.
+
+    Catches all exceptions and displays them in a message box.
+
+    Parameters
+    ----------
+    func : callable
+        Function to be used as a Qt slot.
+
+    Returns
+    -------
+    callable
+        Wrapped function with exception handling.
+
+    """
     def wrapper(*args, **kwargs):
         try:
             return func(*args, **kwargs)
@@ -404,6 +531,21 @@ def safe_slot(func):
     return wrapper
 
 def reset_plot(fig, ax):
+    """
+    Resets a Matplotlib figure and creates a new axis.
+
+    Parameters
+    ----------
+    fig : matplotlib.figure.Figure
+        Figure object to be cleared.
+    ax : matplotlib.axes.Axes
+        Previous axis (will be replaced).
+
+    Returns
+    -------
+    matplotlib.axes.Axes
+        New axis added to the figure.
+    """
     fig.clear()
     ax = fig.add_subplot(111)
     return ax
