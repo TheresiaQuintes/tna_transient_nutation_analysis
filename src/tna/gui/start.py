@@ -1,5 +1,5 @@
-from PyQt5 import QtWidgets
-import tna.gui.GUI as GUI
+from PyQt6 import QtWidgets
+import tna.gui.GUI_neu as GUI
 import sys
 import tna.gui.gui_signals as sgn
 import tna.classes as fun
@@ -15,7 +15,7 @@ sys.excepthook = excepthook
 class MainWindow(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
 
     def __init__(self):
-        super(self.__class__, self).__init__()
+        super().__init__()
         self.setupUi(self)
         self.controller = sgn.TNAController(self)
         self.controller.connect_signals()
@@ -28,7 +28,7 @@ def main():
     window.setWindowTitle('Transient Nutation - Spectra Analysis')
 
     window.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
 
 if __name__ == '__main__':
     main()

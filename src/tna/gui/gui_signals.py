@@ -1,8 +1,7 @@
-from PyQt5.QtWidgets import QFileDialog
-from PyQt5.QtWidgets import QMessageBox
-from PyQt5 import QtWidgets
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigCan
-from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavTool
+from PyQt6.QtWidgets import QFileDialog, QMessageBox
+from PyQt6 import QtWidgets
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigCan
+from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as NavTool
 import matplotlib.pyplot as plt
 import numpy as np
 import pickle
@@ -45,17 +44,19 @@ class TNAController:
     def click_load_data_button(self, *args):
         plt.style.use("style.mplstyle")
 
-        options = QFileDialog.Options()
-        options |= QFileDialog.DontUseNativeDialog
-        dialog = QFileDialog()
-        dialog.setFileMode(3)
-        dateien = dialog.getOpenFileNames(self.view, "Datei wählen", options=options)[0]
+        dateien, _ = QFileDialog.getOpenFileNames(
+            self.view,
+            "Datei wählen",
+            options=QFileDialog.Option.DontUseNativeDialog
+        )
         if len(dateien) == 1:
             self.par.path = dateien[0][:-4]
             self.loading_one_file()
         elif len(dateien) == 0:
             return
         else:
+            # TODO: Was passiert hier? Hier wollte ich glaube ich mehrere
+            # Dateien Aufaddieren aber das stimmt so glaube ich nicht??
             self.par.path = dateien[0][:-4]
             self.loading_one_file()
             full_spectrum = np.zeros(self.data.spc.shape)
@@ -69,14 +70,14 @@ class TNAController:
 
         try:
             if self.par.two_d is True:
-                plt.close(plt.gcf())
+                self.view.figure1.clear()
                 self.view.ax1 = reset_plot(self.view.figure1, self.view.ax1)
                 field, time = np.meshgrid(self.data.field, self.data.time)
                 self.view.ax1.pcolormesh(field, time, self.data.spc.T)
                 self.view.ax1.contour(field, time, self.data.spc.T, colors='k')
                 self.view.canvas_1.draw()
 
-                plt.close(plt.gcf())
+                self.view.figure2.clear()
                 self.view.ax2 = reset_plot(self.view.figure2, self.view.ax2)
                 time_point = (np.abs(self.data.time - self.par.current_time)).argmin()
                 self.view.ax2.plot(self.data.field, self.data.spc[:, time_point])
@@ -84,12 +85,12 @@ class TNAController:
 
             elif self.par.two_d is False:
                 try:
-                    plt.close(plt.gcf())
+                    self.view.figure1.clear()
                     self.view.ax1 = reset_plot(self.view.figure1, self.view.ax1)
                     self.view.ax1.plot(self.data.t, self.data.t_signal)
                     self.view.canvas_1.draw()
 
-                    plt.close(plt.gcf())
+                    self.view.figure2.clear()
                     self.view.ax2 = reset_plot(self.view.figure2, self.view.ax2)
                 except ValueError:
                     pass
@@ -140,14 +141,14 @@ class TNAController:
 
                 time_point = (np.abs(self.data.time - self.par.current_time)).argmin()
 
-                plt.close(plt.gcf())
+                self.view.figure1.clear()
                 self.view.ax1 = reset_plot(self.view.figure1, self.view.ax1)
                 field, time = np.meshgrid(self.data.field, self.data.time)
                 self.view.ax1.pcolormesh(field, time, self.data.spc.T)
                 self.view.ax1.contour(field, time, self.data.spc.T, colors='k')
                 self.view.canvas_1.draw()
 
-                plt.close(plt.gcf())
+                self.view.figure2.clear()
                 self.view.ax2 = reset_plot(self.view.figure2, self.view.ax2)
                 self.view.ax2.plot(self.data.field, self.data.spc[:, time_point])
                 self.view.canvas_2.draw()
@@ -166,7 +167,7 @@ class TNAController:
 
         elif self.par.two_d is False:
             try:
-                plt.close(plt.gcf())
+                self.view.figure1.clear()
                 self.view.ax1 = reset_plot(self.view.figure1, self.view.ax1)
                 self.view.ax1.plot(self.data.t, self.data.t_signal)
                 self.view.canvas_1.draw()
@@ -222,12 +223,12 @@ class TNAController:
             self.data.fourier_transformation(
                 self.par.zero_filling_factor, self.par.reference_freq_value)
 
-        plt.close(plt.gcf())
+        self.view.figure1.clear()
         self.view.ax1 = reset_plot(self.view.figure1, self.view.ax1)
         self.view.ax1.plot(self.data.t, self.data.t_signal)
         self.view.canvas_1.draw()
 
-        plt.close(plt.gcf())
+        self.view.figure2.clear()
         self.view.ax2 = reset_plot(self.view.figure2, self.view.ax2)
         self.view.ax2.plot(self.data.freq, self.data.freq_signal)
         self.view.canvas_2.draw()
@@ -271,7 +272,7 @@ class TNAController:
 
         self.data.ft_spc = np.array(ft_spc)
 
-        plt.close(plt.gcf())
+        self.view.figure1.clear()
         self.view.ax1 = reset_plot(self.view.figure1, self.view.ax1)
         field, freq = np.meshgrid(self.data.field, self.data.freq)
         self.view.ax1.pcolormesh(field, freq, self.data.ft_spc.T)
@@ -279,19 +280,20 @@ class TNAController:
         self.view.canvas_1.draw()
 
     def click_save_button(self, *args):
-        options = QFileDialog.Options()
-        options |= QFileDialog.DontUseNativeDialog
-        datei = QFileDialog.getSaveFileName(
+        options = QFileDialog.Option.DontUseNativeDialog
+        datei, _ = QFileDialog.getSaveFileName(
             self.view, "Speichern unter", options=options)
-        self.par.save_location = datei[0]
+        if not datei:
+            return
+        self.par.save_location = datei
 
         with open(str(self.par.save_location) + ".data", 'wb') as file:
             pickle.dump(vars(self.data), file)
-        file.close()
+
 
         with open(str(self.par.save_location) + ".parameters", 'wb') as file:
             pickle.dump(vars(self.par), file)
-        file.close()
+
 
     def update_checkboxes(self, *args):
         if self.view.baseline_correction_check.isChecked():
@@ -439,6 +441,5 @@ def safe_slot(func):
 
 def reset_plot(fig, ax):
     fig.clear()
-    ax.cla()
     ax = fig.add_subplot(111)
     return ax
