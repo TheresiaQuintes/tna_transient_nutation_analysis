@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 import tna.classes as cl
 from pathlib import Path
 
@@ -168,30 +167,27 @@ def _apply_processing(data: cl.TransientNutations, params: cl.Parameters):
     The order of operations follows the sequence defined in this function and
     may influence the final result.
     """
-    # TODO Als Pipeline schreiben anstatt wie bisher und dabei Reihenfolge
-    #  variabel machen? -> Finde Heraus, ob die Reihenfolge überhaupt Variabel
+    # TODO
+    #  Reihenfolge variabel machen? -> Finde Heraus, ob die Reihenfolge überhaupt variabel
     #  sein darf oder ob das hier die einzig korrekte Reihenfolge ist
 
-    if params.baseline_correction:
-        data.baseline_correction(deg=params.baseline_correction_deg)
+    processing_pipeline = [
+        (params.baseline_correction,
+            lambda: data.baseline_correction(deg=params.baseline_correction_deg)),
+        (params.reconstruction, data.reconstruction),
+        (params.wdw_chebwin,
+            lambda: data.wdw_chebwin(params.chebwin_attenuation)),
+        (params.wdw_hamming,
+            lambda: data.wdw_hamming(params.hamming_window_coefficient)),
+        (params.wdw_kaiser,
+            lambda: data.wdw_kaiser(params.kaiser_window_shape_parameter)),
+        (params.wdw_sinebell,
+            lambda: data.wdw_sinebell(params.sinebell_phase_shift)),
+        (params.wdw_lorentz_gauss,
+            lambda: data.wdw_lorentz_gauss(params.tau, params.sigma)),
+        (params.mean_subtraction, data.mean_subtraction),
+    ]
 
-    if params.reconstruction:
-        data.reconstruction()
-
-    if params.wdw_chebwin:
-        data.wdw_chebwin(params.chebwin_attenuation)
-
-    if params.wdw_hamming:
-        data.wdw_hamming(params.hamming_window_coefficient)
-
-    if params.wdw_kaiser:
-        data.wdw_kaiser(params.kaiser_window_shape_parameter)
-
-    if params.wdw_sinebell:
-        data.wdw_sinebell(params.sinebell_phase_shift)
-
-    if params.wdw_lorentz_gauss:
-        data.wdw_lorentz_gauss(params.tau, params.sigma)
-
-    if params.mean_subtraction:
-        data.mean_subtraction()
+    for enabled, step in processing_pipeline:
+        if enabled:
+            step()

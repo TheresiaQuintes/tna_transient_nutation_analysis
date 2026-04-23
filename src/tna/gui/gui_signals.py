@@ -69,7 +69,7 @@ class TNAController:
             self.data.time_signal = self.data.spc
 
         try:
-            if self.par.two_d is True:
+            if self.par.two_d:
                 self.view.figure1.clear()
                 self.view.ax1 = reset_plot(self.view.figure1, self.view.ax1)
                 field, time = np.meshgrid(self.data.field, self.data.time)
@@ -83,7 +83,7 @@ class TNAController:
                 self.view.ax2.plot(self.data.field, self.data.spc[:, time_point])
                 self.view.canvas_2.draw()
 
-            elif self.par.two_d is False:
+            else:
                 try:
                     self.view.figure1.clear()
                     self.view.ax1 = reset_plot(self.view.figure1, self.view.ax1)
@@ -99,7 +99,7 @@ class TNAController:
             return
 
     def loading_one_file(self):
-        if self.par.two_d is True:
+        if self.par.two_d:
             try:
                 self.data.load_2d(self.par.path, self.par.prodel)
                 self.data.choose_field(self.par.current_field)
@@ -113,7 +113,7 @@ class TNAController:
                 info.exec()
                 return
 
-        elif self.par.two_d is False:
+        else:
             try:
                 self.data.load_1d(self.par.path, self.par.prodel)
 
@@ -122,8 +122,6 @@ class TNAController:
                     info.setText("Please choose a  1 dimensional dataset.")
                     info.setWindowTitle("Can not open dataset")
                     info.exec()
-
-
 
             except ValueError:
                 info = QMessageBox()
@@ -135,7 +133,7 @@ class TNAController:
     def click_show_experimental_button(self, *args):
         plt.style.use("style.mplstyle")
 
-        if self.par.two_d is True:
+        if self.par.two_d:
             try:
                 self.data.choose_field(self.par.current_field)
 
@@ -165,7 +163,7 @@ class TNAController:
                 info.setWindowTitle("Can not open dataset")
                 info.exec()
 
-        elif self.par.two_d is False:
+        else:
             try:
                 self.view.figure1.clear()
                 self.view.ax1 = reset_plot(self.view.figure1, self.view.ax1)
@@ -185,43 +183,42 @@ class TNAController:
                 info.exec()
 
     def click_one_d_button(self, *args):
-        plt.style.use("style.mplstyle")
 
-        if self.par.two_d is True:
+        if self.par.two_d:
             self.data.choose_field(self.par.current_field)
-        elif self.par.two_d is False:
+        else:
             self.data.t_signal = self.data.spc.copy()
             self.data.t = self.data.time.copy()
 
-        if self.par.baseline_correction is True:
-            self.data.baseline_correction(deg=self.par.baseline_correction_deg)
+        # define pipeline
+        processing_steps = [
+            (self.par.baseline_correction,
+             lambda: self.data.baseline_correction(deg=self.par.baseline_correction_deg)),
+            (self.par.reconstruction, self.data.reconstruction),
+            (self.par.wdw_chebwin,
+             lambda: self.data.wdw_chebwin(self.par.chebwin_attenuation)),
+            (self.par.wdw_hamming,
+             lambda: self.data.wdw_hamming(self.par.hamming_window_coefficient)),
+            (self.par.wdw_kaiser,
+             lambda: self.data.wdw_kaiser(self.par.kaiser_window_shape_parameter)),
+            (self.par.wdw_sinebell,
+             lambda: self.data.wdw_sinebell(self.par.sinebell_phase_shift)),
+            (self.par.wdw_lorentz_gauss,
+             lambda: self.data.wdw_lorentz_gauss(self.par.tau, self.par.sigma)),
+            (self.par.mean_subtraction, self.data.mean_subtraction),
+        ]
 
-        if self.par.reconstruction is True:
-            self.data.reconstruction()
+        # run pipeline
+        for condition, func in processing_steps:
+            if condition:
+                func()
 
-        if self.par.wdw_chebwin is True:
-            self.data.wdw_chebwin(self.par.chebwin_attenuation)
-
-        if self.par.wdw_hamming is True:
-            self.data.wdw_hamming(self.par.hamming_window_coefficient)
-
-        if self.par.wdw_kaiser is True:
-            self.data.wdw_kaiser(self.par.kaiser_window_shape_parameter)
-
-        if self.par.wdw_sinebell is True:
-            self.data.wdw_sinebell(self.par.sinebell_phase_shift)
-
-        if self.par.wdw_lorentz_gauss is True:
-            self.data.wdw_lorentz_gauss(self.par.tau, self.par.sigma)
-
-        if self.par.mean_subtraction is True:
-            self.data.mean_subtraction()
-
-        if self.par.zero_filling is False:
-            self.data.fourier_transformation(1, self.par.reference_freq_value)
-        else:
-            self.data.fourier_transformation(
-                self.par.zero_filling_factor, self.par.reference_freq_value)
+        # fourier transformation
+        zero_fill = 1 if not self.par.zero_filling else self.par.zero_filling_factor
+        self.data.fourier_transformation(
+            zero_fill,
+            self.par.reference_freq_value
+        )
 
         self.view.figure1.clear()
         self.view.ax1 = reset_plot(self.view.figure1, self.view.ax1)
@@ -234,40 +231,43 @@ class TNAController:
         self.view.canvas_2.draw()
 
     def click_two_d_button(self, *args):
-        plt.style.use("style.mplstyle")
 
         self.click_one_d_button()
+
         ft_spc = []
+
+        # define pipeline
+        processing_steps = [
+            (self.par.baseline_correction,
+             lambda: self.data.baseline_correction(deg=self.par.baseline_correction_deg)),
+            (self.par.reconstruction, self.data.reconstruction),
+            (self.par.wdw_chebwin,
+             lambda: self.data.wdw_chebwin(self.par.chebwin_attenuation)),
+            (self.par.wdw_hamming,
+             lambda: self.data.wdw_hamming(self.par.hamming_window_coefficient)),
+            (self.par.wdw_kaiser,
+             lambda: self.data.wdw_kaiser(self.par.kaiser_window_shape_parameter)),
+            (self.par.wdw_sinebell,
+             lambda: self.data.wdw_sinebell(self.par.sinebell_phase_shift)),
+            (self.par.wdw_lorentz_gauss,
+             lambda: self.data.wdw_lorentz_gauss(self.par.tau, self.par.sigma)),
+            (self.par.mean_subtraction, self.data.mean_subtraction),
+        ]
+
         for field_index in range(len(self.data.field)):
             self.data.t_signal = self.data.spc[field_index]
             self.data.t = self.data.time
 
-            if self.par.baseline_correction is True:
-                self.data.baseline_correction(deg=self.par.baseline_correction_deg)
-
-            if self.par.reconstruction is True:
-                self.data.reconstruction()
-
-            if self.par.wdw_chebwin is True:
-                self.data.wdw_chebwin(self.par.chebwin_attenuation)
-
-            if self.par.wdw_hamming is True:
-                self.data.wdw_hamming(self.par.hamming_window_coefficient)
-
-            if self.par.wdw_kaiser is True:
-                self.data.wdw_kaiser(self.par.kaiser_window_shape_parameter)
-
-            if self.par.wdw_sinebell is True:
-                self.data.wdw_sinebell(self.par.sinebell_phase_shift)
-
-            if self.par.wdw_lorentz_gauss is True:
-                self.data.wdw_lorentz_gauss(self.par.tau, self.par.sigma)
-
-            if self.par.mean_subtraction is True:
-                self.data.mean_subtraction()
+            # run pipeline
+            for condition, func in processing_steps:
+                if condition:
+                    func()
 
             self.data.fourier_transformation(
-                self.par.zero_filling_factor, self.par.reference_freq_value)
+                self.par.zero_filling_factor,
+                self.par.reference_freq_value
+            )
+
             ft_spc.append(self.data.freq_signal)
 
         self.data.ft_spc = np.array(ft_spc)
@@ -294,63 +294,27 @@ class TNAController:
         with open(str(self.par.save_location) + ".parameters", 'wb') as file:
             pickle.dump(vars(self.par), file)
 
-
     def update_checkboxes(self, *args):
-        if self.view.baseline_correction_check.isChecked():
-            self.par.baseline_correction = True
-        else:
-            self.par.baseline_correction = False
+        mapping = {
+            "baseline_correction_check": "baseline_correction",
+            "reconstruction_check": "reconstruction",
+            "mean_subtraction_check": "mean_subtraction",
+            "zero_filling_check": "zero_filling",
+            "reference_frequency_check": "reference_freq",
+            "dolph_chebyshev_check": "wdw_chebwin",
+            "hamming_check": "wdw_hamming",
+            "kaiser_check": "wdw_kaiser",
+            "lorentz_gauss_check": "wdw_lorentz_gauss",
+            "sinebell_check": "wdw_sinebell",
+            "prodel_check": "prodel",
+        }
 
-        if self.view.reconstruction_check.isChecked():
-            self.par.reconstruction = True
-        else:
-            self.par.reconstruction = False
+        for checkbox_name, param_name in mapping.items():
+            checkbox = getattr(self.view, checkbox_name)
+            setattr(self.par, param_name, checkbox.isChecked())
 
-        if self.view.mean_subtraction_check.isChecked():
-            self.par.mean_subtraction = True
-        else:
-            self.par.mean_subtraction = False
-
-        if self.view.zero_filling_check.isChecked():
-            self.par.zero_filling = True
-        else:
-            self.par.zero_filling = False
-
-        if self.view.reference_frequency_check.isChecked():
-            self.par.reference_freq = True
-        else:
-            self.par.reference_freq = False
+        if not self.view.reference_frequency_check.isChecked():
             self.par.reference_freq_value = 1
-
-        if self.view.dolph_chebyshev_check.isChecked():
-            self.par.wdw_chebwin = True
-        else:
-            self.par.wdw_chebwin = False
-
-        if self.view.hamming_check.isChecked():
-            self.par.wdw_hamming = True
-        else:
-            self.par.wdw_hamming = False
-
-        if self.view.kaiser_check.isChecked():
-            self.par.wdw_kaiser = True
-        else:
-            self.par.wdw_kaiser = False
-
-        if self.view.lorentz_gauss_check.isChecked():
-            self.par.wdw_lorentz_gauss = True
-        else:
-            self.par.wdw_lorentz_gauss = False
-
-        if self.view.sinebell_check.isChecked():
-            self.par.wdw_sinebell = True
-        else:
-            self.par.wdw_sinebell = False
-
-        if self.view.prodel_check.isChecked():
-            self.par.prodel = True
-        else:
-            self.par.prodel = False
 
     def update_dimension(self, *args):
         if self.view.one_d_radio.isChecked():

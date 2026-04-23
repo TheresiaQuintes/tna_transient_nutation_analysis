@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent
 # Example 1: two-dimensional transformation
 params = cl.Parameters(
     two_d = True,
-    path = BASE_DIR/"data"/"14_esenut_vs_B_LV_trinagulene_2.5mM_5eq_14dB_VG9_noAmp_h4n2_120K.DSC",
+    path = BASE_DIR/"data"/"14_esenut_vs_B_LV_trinagulene_2-5mM_5eq_14dB_VG9_noAmp_h4n2_120K.DSC",
     baseline_correction = False,
     reconstruction = True,
     mean_subtraction = True,
@@ -28,7 +28,7 @@ plt.draw()
 # Example 2: one-dimensional transformation at a single field slice
 params = cl.Parameters(
     two_d = True,
-    path = BASE_DIR/"data"/"14_esenut_vs_B_LV_trinagulene_2.5mM_5eq_14dB_VG9_noAmp_h4n2_120K.DSC",
+    path = BASE_DIR/"data"/"14_esenut_vs_B_LV_trinagulene_2-5mM_5eq_14dB_VG9_noAmp_h4n2_120K.DSC",
     baseline_correction = False,
     reconstruction = True,
     mean_subtraction = True,

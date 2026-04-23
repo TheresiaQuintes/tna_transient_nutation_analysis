@@ -1,8 +1,7 @@
 from PyQt6 import QtWidgets
-import tna.gui.GUI_neu as GUI
+import tna.gui.GUI as GUI
 import sys
 import tna.gui.gui_signals as sgn
-import tna.classes as fun
 import traceback
 
 def excepthook(exc_type, exc_value, exc_tb):
