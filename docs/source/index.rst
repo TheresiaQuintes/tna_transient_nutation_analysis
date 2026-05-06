@@ -7,7 +7,6 @@ Documentation for TNA - Transient Nutation Analysis
 
    installation
    tutorial
-   gui
 
 .. toctree::
    :maxdepth: 2

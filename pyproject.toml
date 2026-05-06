@@ -8,7 +8,7 @@ dependencies = [
     "matplotlib",
     "scipy",
     "statsmodels",
-    "PyQt5",
+    "PyQt6",
     "pydantic"
 ]
 
@@ -24,4 +24,4 @@ where = ["src"]
 include = ["tna*"]
 
 [project.scripts]
-tna = "tna.start:main"
+tna = "tna.gui.start:main"
