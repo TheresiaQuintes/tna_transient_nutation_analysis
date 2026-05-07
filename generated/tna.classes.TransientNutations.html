@@ -1,0 +1,297 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tna.classes.TransientNutations &mdash; TNA - Transient Nutation Analysis 2026 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+
+  
+    <link rel="canonical" href="https://theresiaquintes.github.io/tna/generated/tna.classes.TransientNutations.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=c6db1b62"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="tna.classes.Parameters" href="tna.classes.Parameters.html" />
+    <link rel="prev" title="classes" href="../classes.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            TNA - Transient Nutation Analysis
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Data processing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../processing_theory.html">Processing theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processing_pipeline.html">Processing pipeline</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Modules</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../classes.html">classes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#overview">Overview</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../classes.html#contents">Contents</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">tna.classes.TransientNutations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#tna.classes.TransientNutations"><code class="docutils literal notranslate"><span class="pre">TransientNutations</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tna.classes.Parameters.html">tna.classes.Parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../functions.html">functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gui_start.html">start_gui</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gui_signals.html">gui_controller</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">TNA - Transient Nutation Analysis</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../classes.html">classes</a></li>
+      <li class="breadcrumb-item active">tna.classes.TransientNutations</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/generated/tna.classes.TransientNutations.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="../classes.html" class="btn btn-neutral float-left" title="classes" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tna.classes.Parameters.html" class="btn btn-neutral float-right" title="tna.classes.Parameters" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tna-classes-transientnutations">
+<h1>tna.classes.TransientNutations<a class="headerlink" href="#tna-classes-transientnutations" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="tna.classes.TransientNutations">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">tna.classes.</span></span><span class="sig-name descname"><span class="pre">TransientNutations</span></span><a class="reference internal" href="../_modules/tna/classes.html#TransientNutations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tna.classes.TransientNutations" title="Link to this definition"></a></dt>
+<dd><p>Transient nutation data class.</p>
+<p>Transient nutation data can be loaded and processed.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">The</span> <span class="pre">__init__</span> <span class="pre">functions</span> <span class="pre">creates</span> <span class="pre">the</span> <span class="pre">following</span> <span class="pre">attributes</span> <span class="pre">but</span> <span class="pre">sets</span> <span class="pre">them</span> <span class="pre">to</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">None.</span> <span class="pre">Attributes</span> <span class="pre">are</span> <span class="pre">filled</span> <span class="pre">with</span> <span class="pre">values</span> <span class="pre">using</span> <span class="pre">the</span> <span class="pre">methods.</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.TransientNutations.field">
+<span class="sig-name descname"><span class="pre">field</span></span><a class="headerlink" href="#tna.classes.TransientNutations.field" title="Link to this definition"></a></dt>
+<dd><p>Magnetic field array (for 2D data sets).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.TransientNutations.time">
+<span class="sig-name descname"><span class="pre">time</span></span><a class="headerlink" href="#tna.classes.TransientNutations.time" title="Link to this definition"></a></dt>
+<dd><p>Time point array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.TransientNutations.spc">
+<span class="sig-name descname"><span class="pre">spc</span></span><a class="headerlink" href="#tna.classes.TransientNutations.spc" title="Link to this definition"></a></dt>
+<dd><p>Intensities of the experimental data. May be 1D or 2D.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.TransientNutations.chosen_field">
+<span class="sig-name descname"><span class="pre">chosen_field</span></span><a class="headerlink" href="#tna.classes.TransientNutations.chosen_field" title="Link to this definition"></a></dt>
+<dd><p>Chosen magnetic field point to get the time trace of two-dimensional
+spectra.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.TransientNutations.t_signal">
+<span class="sig-name descname"><span class="pre">t_signal</span></span><a class="headerlink" href="#tna.classes.TransientNutations.t_signal" title="Link to this definition"></a></dt>
+<dd><p>Signal intensities along the time axis, (processed) experimental data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.TransientNutations.freq_signal">
+<span class="sig-name descname"><span class="pre">freq_signal</span></span><a class="headerlink" href="#tna.classes.TransientNutations.freq_signal" title="Link to this definition"></a></dt>
+<dd><p>Fourier transform of the t_signal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.TransientNutations.t">
+<span class="sig-name descname"><span class="pre">t</span></span><a class="headerlink" href="#tna.classes.TransientNutations.t" title="Link to this definition"></a></dt>
+<dd><p>(Processed) time axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.TransientNutations.freq">
+<span class="sig-name descname"><span class="pre">freq</span></span><a class="headerlink" href="#tna.classes.TransientNutations.freq" title="Link to this definition"></a></dt>
+<dd><p>Frequency axis for the freq_signal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tna.classes.TransientNutations.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tna/classes.html#TransientNutations.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tna.classes.TransientNutations.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tna.classes.TransientNutations.__init__" title="tna.classes.TransientNutations.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">baseline_correction</span></code>([deg])</p></td>
+<td><p>Baseline correction of the signal by using a polynomial fit function.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">choose_field</span></code>(field)</p></td>
+<td><p>Get the time signal at the given field point out of a 2dimensional spectrum (spc).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fourier_transformation</span></code>([zero_filling, ...])</p></td>
+<td><p>Do a discrete fast fourier transformation of the time signal using the scipy function fft.fft.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_1d</span></code>(filename[, prodel])</p></td>
+<td><p>Load one dimensional transient nutation data in .DSC/.DTA format.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_2d</span></code>(filename[, prodel])</p></td>
+<td><p>Load two-dimensional transient nutation data in .DSC/.DTA format.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mean_subtraction</span></code>()</p></td>
+<td><p>Subtraction of the mean of the signal from the signal.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reconstruction</span></code>()</p></td>
+<td><p>Reconstruction of a time signal use the Yule-Walker algorithm.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">wdw_chebwin</span></code>([at])</p></td>
+<td><p>Convolve a time signal with the Dolph-Chebyshev window.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">wdw_hamming</span></code>([alpha])</p></td>
+<td><p>Convolve a time signal with the Hamming window.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">wdw_kaiser</span></code>([beta])</p></td>
+<td><p>Convolve the signal with the Kaiser window for ripple suppression and causes signal broadening of the fourier transformed signal.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">wdw_lorentz_gauss</span></code>(tau, sigma)</p></td>
+<td><p>Convolve the time signal by the Lorentz-Gauss window.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">wdw_sinebell</span></code>([phi])</p></td>
+<td><p>Convolve the time signal by the phase-shifted Sinebell window.</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../classes.html" class="btn btn-neutral float-left" title="classes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tna.classes.Parameters.html" class="btn btn-neutral float-right" title="tna.classes.Parameters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 Theresia Quintes.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

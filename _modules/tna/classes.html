@@ -1,0 +1,712 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tna.classes &mdash; TNA - Transient Nutation Analysis 2026 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+    <link rel="canonical" href="https://theresiaquintes.github.io/tna/_modules/tna/classes.html" />
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=c6db1b62"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            TNA - Transient Nutation Analysis
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Data processing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../processing_theory.html">Processing theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processing_pipeline.html">Processing pipeline</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../classes.html">classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../functions.html">functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gui_start.html">start_gui</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gui_signals.html">gui_controller</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">TNA - Transient Nutation Analysis</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">tna.classes</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for tna.classes</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.tsa.ar_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoReg</span><span class="p">,</span> <span class="n">ar_select_order</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+
+<div class="viewcode-block" id="TransientNutations">
+<a class="viewcode-back" href="../../generated/tna.classes.TransientNutations.html#tna.classes.TransientNutations">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TransientNutations</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transient nutation data class.</span>
+
+<span class="sd">    Transient nutation data can be loaded and processed.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    The __init__ functions creates the following attributes but sets them to</span>
+<span class="sd">    None. Attributes are filled with values using the methods.</span>
+
+<span class="sd">    field : np.ndarray</span>
+<span class="sd">        Magnetic field array (for 2D data sets).</span>
+<span class="sd">    time : np.ndarray</span>
+<span class="sd">        Time point array.</span>
+<span class="sd">    spc : np.ndarray</span>
+<span class="sd">        Intensities of the experimental data. May be 1D or 2D.</span>
+<span class="sd">    chosen_field : float</span>
+<span class="sd">        Chosen magnetic field point to get the time trace of two-dimensional</span>
+<span class="sd">        spectra.</span>
+<span class="sd">    t_signal : np.ndarray</span>
+<span class="sd">        Signal intensities along the time axis, (processed) experimental data.</span>
+<span class="sd">    freq_signal : np.ndarray</span>
+<span class="sd">        Fourier transform of the t_signal.</span>
+<span class="sd">    t : np.ndarray</span>
+<span class="sd">        (Processed) time axis.</span>
+<span class="sd">    freq : np.ndarray</span>
+<span class="sd">        Frequency axis for the freq_signal.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TransientNutations.__init__">
+<a class="viewcode-back" href="../../generated/tna.classes.TransientNutations.html#tna.classes.TransientNutations.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">field</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spc</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">chosen_field</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_signal</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">freq_signal</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<span class="c1"># TODO: Loader für specatalog-hdf5 hinzufügen</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_2d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">prodel</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load two-dimensional transient nutation data in .DSC/.DTA format.</span>
+<span class="sd">        Set the attributes time, field and spc.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : Path</span>
+<span class="sd">            Absolute path to the data excluding the file extension.</span>
+<span class="sd">        prodel : boolean, optional</span>
+<span class="sd">            Defines if data were recorded using prodel. Real and imaginary</span>
+<span class="sd">            parts of the signal are swapped. The default is False.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dta_file</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.DTA&quot;</span><span class="p">)</span>
+        <span class="n">dsc_file</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.DSC&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">dta_file</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">dsc_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File not found: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">dta_file</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">intensities</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;&gt;f8&#39;</span><span class="p">))</span>
+            <span class="n">intensities</span> <span class="o">=</span> <span class="n">intensities</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">dsc_file</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+
+
+
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+                <span class="c1"># complex signal?</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;IKKF&#39;</span><span class="p">):</span>
+                    <span class="n">s</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;CPLX&#39;</span><span class="p">:</span>
+                        <span class="n">complex_signal</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">complex_signal</span> <span class="o">=</span> <span class="kc">False</span>
+
+                <span class="c1"># number of delays</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;XPTS&#39;</span><span class="p">):</span>
+                    <span class="n">s</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                    <span class="n">t_points</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+                <span class="c1"># minimum time</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;XMIN&#39;</span><span class="p">):</span>
+                    <span class="n">s</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                    <span class="n">t_min</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+                <span class="c1"># time range</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;XWID&#39;</span><span class="p">):</span>
+                    <span class="n">s</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                    <span class="n">t_width</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+                <span class="c1"># number of magnetic field points</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;YPTS&#39;</span><span class="p">):</span>
+                    <span class="n">s</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                    <span class="n">b_points</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+                <span class="c1"># minimum magnetic field</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;YMIN&#39;</span><span class="p">):</span>
+                    <span class="n">s</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                    <span class="n">b_min</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+                <span class="c1"># magnetic field range</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;YWID&#39;</span><span class="p">):</span>
+                    <span class="n">s</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                    <span class="n">b_width</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+
+
+        <span class="k">if</span> <span class="n">complex_signal</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">prodel</span><span class="p">:</span>
+                <span class="n">spc</span> <span class="o">=</span> <span class="n">intensities</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">spc</span> <span class="o">=</span> <span class="n">intensities</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">spc</span> <span class="o">=</span> <span class="n">intensities</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">t_min</span><span class="p">,</span> <span class="n">t_min</span><span class="o">+</span><span class="n">t_width</span><span class="p">,</span> <span class="n">t_points</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">b_min</span><span class="p">,</span> <span class="n">b_min</span><span class="o">+</span><span class="n">b_width</span><span class="p">,</span> <span class="n">b_points</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spc</span> <span class="o">=</span> <span class="n">spc</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">field</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">)))</span>
+
+        <span class="k">return</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_1d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">prodel</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load one dimensional transient nutation data in .DSC/.DTA format.</span>
+<span class="sd">        Set the attributes time, spc, t and time_signal.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : Path</span>
+<span class="sd">            Absolute path to the data excluding the file extension.</span>
+<span class="sd">        prodel : boolean, optional</span>
+<span class="sd">            Defines if data were recorded using prodel. Real and imaginary</span>
+<span class="sd">            parts of the signal are swapped. The default is False.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dta_file</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.DTA&quot;</span><span class="p">)</span>
+        <span class="n">dsc_file</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.DSC&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">dta_file</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">dsc_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File not found: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">dta_file</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">intensities</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;&gt;f8&#39;</span><span class="p">))</span>
+            <span class="n">intensities</span> <span class="o">=</span> <span class="n">intensities</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">dsc_file</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+                <span class="c1"># complex signal?</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;IKKF&#39;</span><span class="p">):</span>
+                    <span class="n">s</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;CPLX&#39;</span><span class="p">:</span>
+                        <span class="n">complex_signal</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">complex_signal</span> <span class="o">=</span> <span class="kc">False</span>
+
+                <span class="c1"># number of delays</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;XPTS&#39;</span><span class="p">):</span>
+                    <span class="n">s</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                    <span class="n">t_points</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+                <span class="c1"># minimum time</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;XMIN&#39;</span><span class="p">):</span>
+                    <span class="n">s</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                    <span class="n">t_min</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+                <span class="c1"># time range</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;XWID&#39;</span><span class="p">):</span>
+                    <span class="n">s</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                    <span class="n">t_width</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+
+        <span class="k">if</span> <span class="n">complex_signal</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">prodel</span><span class="p">:</span>
+                <span class="n">spc</span> <span class="o">=</span> <span class="n">intensities</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">spc</span> <span class="o">=</span> <span class="n">intensities</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">spc</span> <span class="o">=</span> <span class="n">intensities</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">t_min</span><span class="p">,</span> <span class="n">t_min</span><span class="o">+</span><span class="n">t_width</span><span class="p">,</span> <span class="n">t_points</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spc</span> <span class="o">=</span> <span class="n">spc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_signal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spc</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">choose_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the time signal at the given field point out of a 2dimensional</span>
+<span class="sd">        spectrum (spc).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        field : float</span>
+<span class="sd">            Chosen magnetic field point in the same unit as in the experimental</span>
+<span class="sd">            data set.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">field</span> <span class="o">-</span> <span class="n">field</span><span class="p">))</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chosen_field</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">field</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_signal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spc</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">baseline_correction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deg</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Baseline correction of the signal by using a polynomial fit function.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        deg : int, optional</span>
+<span class="sd">            Degree of the polynomial fit. The default is 1.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">coefficients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_signal</span><span class="p">,</span> <span class="n">deg</span><span class="p">)</span>
+        <span class="n">fit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">poly1d</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
+        <span class="n">baseline</span> <span class="o">=</span> <span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_signal</span> <span class="o">-=</span> <span class="n">baseline</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">reconstruction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reconstruction of a time signal use the Yule-Walker algorithm. Time</span>
+<span class="sd">        signal is reconstructed to zero.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_signal</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="c1"># prepare the new array</span>
+        <span class="n">x_step</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">%</span> <span class="n">x_step</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">x_fill_points</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">x_step</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x_fill_points</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">x_step</span><span class="p">)</span>
+        <span class="n">x_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">x_step</span><span class="o">*</span><span class="n">x_fill_points</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">x_step</span><span class="p">,</span> <span class="n">x_fill_points</span><span class="p">),</span> <span class="n">x</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="c1"># determine the order of the p value for the reconstruction</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="n">ar_select_order</span><span class="p">(</span><span class="n">y</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">maxlag</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+        <span class="n">nlag</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">order</span><span class="o">.</span><span class="n">ar_lags</span><span class="p">)</span>
+
+        <span class="c1"># Fit the model to the data and make a prediction</span>
+        <span class="n">auto_reg_fit</span> <span class="o">=</span> <span class="n">AutoReg</span><span class="p">(</span><span class="n">y</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">lags</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">ar_lags</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">auto_reg_fit</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">x_new</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">nlag</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">y_pred</span><span class="p">[</span><span class="n">nlag</span><span class="p">:],</span> <span class="n">nlag</span><span class="p">)</span>
+        <span class="n">y_flip</span> <span class="o">=</span> <span class="n">y_pred</span>
+        <span class="n">y_flip</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">y</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">y_flip</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">):]))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">x_new</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_signal</span> <span class="o">=</span> <span class="n">y_flip</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">wdw_chebwin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">at</span><span class="o">=</span><span class="mi">45</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convolve a time signal with the Dolph-Chebyshev window. This window</span>
+<span class="sd">        may be used for ripple suppression but broadens the fourier</span>
+<span class="sd">        transformed signal. The ripple level is given in dB.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        at : float, optional</span>
+<span class="sd">            Attenuation in dB. The bigger the ripple level the broader and</span>
+<span class="sd">            smoother gets the signal. The default and minimum value is 45.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">wdw_chebwin</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">windows</span><span class="o">.</span><span class="n">chebwin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">),</span> <span class="n">at</span><span class="p">,</span> <span class="n">sym</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">wdw_chebwin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array_split</span><span class="p">(</span><span class="n">wdw_chebwin</span><span class="p">,</span> <span class="mi">2</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_signal</span> <span class="o">*=</span> <span class="n">wdw_chebwin</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">wdw_hamming</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.54</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convolve a time signal with the Hamming window. This is a standard</span>
+<span class="sd">        window for ripple suppression and broadens the fourier transformed</span>
+<span class="sd">        signal.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        alpha : float, optional</span>
+<span class="sd">            Window coefficient. Use 0.54 for the default Hamming function.</span>
+<span class="sd">            The bigger the coefficient is chosen the better gets the smoothing.</span>
+<span class="sd">            The default is 0.54.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">wdw_hamming</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">windows</span><span class="o">.</span><span class="n">general_hamming</span><span class="p">(</span>
+            <span class="mi">2</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">),</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">sym</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">wdw_hamming</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array_split</span><span class="p">(</span><span class="n">wdw_hamming</span><span class="p">,</span> <span class="mi">2</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_signal</span> <span class="o">*=</span> <span class="n">wdw_hamming</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">wdw_kaiser</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convolve the signal with the Kaiser window for ripple suppression and</span>
+<span class="sd">        causes signal broadening of the fourier transformed signal. The window</span>
+<span class="sd">        can be scaled by the shape parameter beta.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        beta : float, optional</span>
+<span class="sd">            Window shape parameter. The higher the parameter the more the</span>
+<span class="sd">            signal is smoothened. A shape parameter of 2 is normally a good</span>
+<span class="sd">            compromise between line broadening and smoothing. The default is 2.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">wdw_kaiser</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">windows</span><span class="o">.</span><span class="n">kaiser</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">),</span> <span class="n">beta</span><span class="p">,</span> <span class="n">sym</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">wdw_kaiser</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array_split</span><span class="p">(</span><span class="n">wdw_kaiser</span><span class="p">,</span> <span class="mi">2</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_signal</span> <span class="o">*=</span> <span class="n">wdw_kaiser</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">wdw_sinebell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convolve the time signal by the phase-shifted Sinebell window. For</span>
+<span class="sd">        phi=0 the first point of the time-domain signal is set to zero. The</span>
+<span class="sd">        Sinebell window causes a decrease of the signal-to-noise ratio but an</span>
+<span class="sd">        improvement of the resolution of the fourier transformed signal.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        phi : float, optional</span>
+<span class="sd">            Phase shift of the Sinebell window. Larger phase shifts correspond</span>
+<span class="sd">            to less resolution enhancement. The default is 0.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">wdw_sinebell</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="o">/</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="n">phi</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_signal</span> <span class="o">*=</span> <span class="n">wdw_sinebell</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">wdw_lorentz_gauss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tau</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convolve the time signal by the Lorentz-Gauss window. The signal decays</span>
+<span class="sd">        less fast which causes an improvement of resolution in the fourier</span>
+<span class="sd">        transformed spectrum. Signal-to-noise ratio is decreased.</span>
+<span class="sd">        Lorentzian lines with the linewidth 1/pi*tau are transformed to Gaussian</span>
+<span class="sd">        lines with a linewidth sqrt(2ln2)/pi*sigma. The parameters tau and</span>
+<span class="sd">        sigma have to be chosen.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tau : float</span>
+<span class="sd">            Defining the Lorentzian lineshape. tau=T2, if no good estimate for</span>
+<span class="sd">            tau is known, start by setting tau=t_max/3.</span>
+<span class="sd">        sigma : float</span>
+<span class="sd">            Defining the Gaussian lineshape. For resolution enhancement set</span>
+<span class="sd">            sigma = 1/2*tau.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">wdw_lorentz_gauss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="o">/</span><span class="n">tau</span> <span class="o">-</span> <span class="p">(</span><span class="n">sigma</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_signal</span> <span class="o">*=</span> <span class="n">wdw_lorentz_gauss</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">mean_subtraction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Subtraction of the mean of the signal from the signal. This kills the</span>
+<span class="sd">        mean frequency peak in the fourier transformed spectrum at zero</span>
+<span class="sd">        frequency.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_signal</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_signal</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">fourier_transformation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zero_filling</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">reference_freq</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Do a discrete fast fourier transformation of the time signal using</span>
+<span class="sd">        the scipy function fft.fft. The time signal is filled with zeros</span>
+<span class="sd">        first to improve the resolution. The transformed signal can be</span>
+<span class="sd">        scaled by a reference frequency. The attributes freq and freq_signal</span>
+<span class="sd">        are assigned by this function.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        zero_filling : int, optional</span>
+<span class="sd">            The signal is filled with zeros before fourier transformation. This</span>
+<span class="sd">            parameter is a factor for the length of the signal. If it is set to</span>
+<span class="sd">            2 the signal is filled to doubled length. This produces the best</span>
+<span class="sd">            possible resolution. The default is 2.</span>
+<span class="sd">        reference_freq : float, optional</span>
+<span class="sd">            The frequency can be scaled to a reference frequency. The</span>
+<span class="sd">            frequencies are divided by the reference frequency. A reference</span>
+<span class="sd">            frequency of 1 causes no changes in the frequencies.</span>
+<span class="sd">            The default is 1.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">freq_signal</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">t_signal</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">zero_filling</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">))</span>
+        <span class="n">freq_signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array_split</span><span class="p">(</span><span class="n">freq_signal</span><span class="p">,</span> <span class="mi">2</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">freq_signal</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">freq_signal</span><span class="p">)</span>
+
+        <span class="n">freq</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftfreq</span><span class="p">(</span>
+            <span class="n">zero_filling</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">),</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span>
+        <span class="n">freq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array_split</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="mi">2</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">freq</span> <span class="o">/=</span> <span class="n">reference_freq</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="o">=</span> <span class="n">freq</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">freq_signal</span> <span class="o">=</span> <span class="n">freq_signal</span>
+        <span class="k">return</span></div>
+
+
+
+<div class="viewcode-block" id="Parameters">
+<a class="viewcode-back" href="../../generated/tna.classes.Parameters.html#tna.classes.Parameters">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameter set controlling preprocessing and analysis of transient nutation</span>
+<span class="sd">    data.</span>
+
+<span class="sd">    This model defines all configurable options for loading, processing,</span>
+<span class="sd">    windowing, and Fourier transformation of transient nutation datasets.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    current_time : float</span>
+<span class="sd">        Time point at which the magnetic field spectrum is evaluated.</span>
+<span class="sd">    current_field : float</span>
+<span class="sd">        Magnetic field point at which the time spectrum is evaluated.</span>
+
+<span class="sd">    prodel : bool</span>
+<span class="sd">        If True, swaps real and imaginary parts of the signal during loading.</span>
+<span class="sd">    two_d : bool</span>
+<span class="sd">        If True, treats the dataset as two-dimensional (field-resolved).</span>
+
+<span class="sd">    path : Path or None</span>
+<span class="sd">        Absolute path to experimental data.</span>
+
+<span class="sd">    baseline_correction : bool</span>
+<span class="sd">        Enables polynomial baseline correction.</span>
+<span class="sd">    baseline_correction_deg : int</span>
+<span class="sd">        Degree of the polynomial used for baseline correction.</span>
+
+<span class="sd">    reconstruction : bool</span>
+<span class="sd">        Enables signal reconstruction.</span>
+<span class="sd">    mean_subtraction : bool</span>
+<span class="sd">        Enables subtraction of the mean signal.</span>
+
+<span class="sd">    wdw_chebwin : bool</span>
+<span class="sd">        Applies a Dolph-Chebyshev window function.</span>
+<span class="sd">    chebwin_attenuation : float</span>
+<span class="sd">        Attenuation parameter (dB) for the Chebyshev window.</span>
+
+<span class="sd">    wdw_hamming : bool</span>
+<span class="sd">        Applies a Hamming window function.</span>
+<span class="sd">    hamming_window_coefficient : float</span>
+<span class="sd">        Coefficient defining the Hamming window shape (default ~0.54).</span>
+
+<span class="sd">    wdw_kaiser : bool</span>
+<span class="sd">        Applies a Kaiser window function.</span>
+<span class="sd">    kaiser_window_shape_parameter : float</span>
+<span class="sd">        Shape parameter of the Kaiser window.</span>
+
+<span class="sd">    wdw_sinebell : bool</span>
+<span class="sd">        Applies a sine-bell window function.</span>
+<span class="sd">    sinebell_phase_shift : float</span>
+<span class="sd">        Phase shift applied to the sine-bell window.</span>
+
+<span class="sd">    wdw_lorentz_gauss : bool</span>
+<span class="sd">        Applies a combined Lorentz-Gauss window function.</span>
+<span class="sd">    tau : float</span>
+<span class="sd">        Lorentzian parameter (related to FWHH via 1/(pi*tau)).</span>
+<span class="sd">    sigma : float</span>
+<span class="sd">        Gaussian width parameter.</span>
+
+<span class="sd">    zero_filling : bool</span>
+<span class="sd">        Enables zero-filling before Fourier transformation.</span>
+<span class="sd">    zero_filling_factor : int</span>
+<span class="sd">        Factor by which the signal length is extended with zeros.</span>
+
+<span class="sd">    reference_freq : bool</span>
+<span class="sd">        Enables correction to a reference frequency.</span>
+<span class="sd">    reference_freq_value : float</span>
+<span class="sd">        Reference frequency used for frequency axis correction.</span>
+
+<span class="sd">    save_location : str or None</span>
+<span class="sd">        Path where processed results are stored.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This class is validates the type of the fields (validate_assignment=&quot;True&quot;)</span>
+<span class="sd">    and disallows additional attributes (extra=&quot;forbid&quot;) to ensure</span>
+<span class="sd">    reproducibility and prevent silent configuration errors in scientific</span>
+<span class="sd">    processing pipelines.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">model_config</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;validate_assignment&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;extra&quot;</span><span class="p">:</span> <span class="s2">&quot;forbid&quot;</span>
+    <span class="p">}</span>
+    <span class="n">current_time</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">current_field</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">12020</span>
+
+    <span class="n">prodel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">two_d</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">baseline_correction</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">baseline_correction_deg</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">reconstruction</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">mean_subtraction</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">wdw_chebwin</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">chebwin_attenuation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">45</span>
+
+    <span class="n">wdw_hamming</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">hamming_window_coefficient</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.54</span>
+
+    <span class="n">wdw_kaiser</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">kaiser_window_shape_parameter</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="n">wdw_sinebell</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">sinebell_phase_shift</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">wdw_lorentz_gauss</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">tau</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">170</span>
+    <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.003</span>
+
+    <span class="n">zero_filling</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">zero_filling_factor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="n">reference_freq</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">reference_freq_value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e7</span>
+
+    <span class="n">save_location</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 Theresia Quintes.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

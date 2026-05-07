@@ -1,0 +1,651 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tna.classes.Parameters &mdash; TNA - Transient Nutation Analysis 2026 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+
+  
+    <link rel="canonical" href="https://theresiaquintes.github.io/tna/generated/tna.classes.Parameters.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=c6db1b62"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="functions" href="../functions.html" />
+    <link rel="prev" title="tna.classes.TransientNutations" href="tna.classes.TransientNutations.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            TNA - Transient Nutation Analysis
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Data processing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../processing_theory.html">Processing theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processing_pipeline.html">Processing pipeline</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Modules</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../classes.html">classes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#overview">Overview</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../classes.html#contents">Contents</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="tna.classes.TransientNutations.html">tna.classes.TransientNutations</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">tna.classes.Parameters</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#tna.classes.Parameters"><code class="docutils literal notranslate"><span class="pre">Parameters</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../functions.html">functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gui_start.html">start_gui</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gui_signals.html">gui_controller</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">TNA - Transient Nutation Analysis</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../classes.html">classes</a></li>
+      <li class="breadcrumb-item active">tna.classes.Parameters</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/generated/tna.classes.Parameters.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="tna.classes.TransientNutations.html" class="btn btn-neutral float-left" title="tna.classes.TransientNutations" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../functions.html" class="btn btn-neutral float-right" title="functions" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tna-classes-parameters">
+<h1>tna.classes.Parameters<a class="headerlink" href="#tna-classes-parameters" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="tna.classes.Parameters">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">tna.classes.</span></span><span class="sig-name descname"><span class="pre">Parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tna/classes.html#Parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tna.classes.Parameters" title="Link to this definition"></a></dt>
+<dd><p>Parameter set controlling preprocessing and analysis of transient nutation
+data.</p>
+<p>This model defines all configurable options for loading, processing,
+windowing, and Fourier transformation of transient nutation datasets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>current_time</strong> (<em>float</em>)</p></li>
+<li><p><strong>current_field</strong> (<em>float</em>)</p></li>
+<li><p><strong>prodel</strong> (<em>bool</em>)</p></li>
+<li><p><strong>two_d</strong> (<em>bool</em>)</p></li>
+<li><p><strong>path</strong> (<em>Path</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>baseline_correction</strong> (<em>bool</em>)</p></li>
+<li><p><strong>baseline_correction_deg</strong> (<em>int</em>)</p></li>
+<li><p><strong>reconstruction</strong> (<em>bool</em>)</p></li>
+<li><p><strong>mean_subtraction</strong> (<em>bool</em>)</p></li>
+<li><p><strong>wdw_chebwin</strong> (<em>bool</em>)</p></li>
+<li><p><strong>chebwin_attenuation</strong> (<em>float</em>)</p></li>
+<li><p><strong>wdw_hamming</strong> (<em>bool</em>)</p></li>
+<li><p><strong>hamming_window_coefficient</strong> (<em>float</em>)</p></li>
+<li><p><strong>wdw_kaiser</strong> (<em>bool</em>)</p></li>
+<li><p><strong>kaiser_window_shape_parameter</strong> (<em>float</em>)</p></li>
+<li><p><strong>wdw_sinebell</strong> (<em>bool</em>)</p></li>
+<li><p><strong>sinebell_phase_shift</strong> (<em>float</em>)</p></li>
+<li><p><strong>wdw_lorentz_gauss</strong> (<em>bool</em>)</p></li>
+<li><p><strong>tau</strong> (<em>float</em>)</p></li>
+<li><p><strong>sigma</strong> (<em>float</em>)</p></li>
+<li><p><strong>zero_filling</strong> (<em>bool</em>)</p></li>
+<li><p><strong>zero_filling_factor</strong> (<em>int</em>)</p></li>
+<li><p><strong>reference_freq</strong> (<em>bool</em>)</p></li>
+<li><p><strong>reference_freq_value</strong> (<em>float</em>)</p></li>
+<li><p><strong>save_location</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.Parameters.current_time">
+<span class="sig-name descname"><span class="pre">current_time</span></span><a class="headerlink" href="#tna.classes.Parameters.current_time" title="Link to this definition"></a></dt>
+<dd><p>Time point at which the magnetic field spectrum is evaluated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.Parameters.current_field">
+<span class="sig-name descname"><span class="pre">current_field</span></span><a class="headerlink" href="#tna.classes.Parameters.current_field" title="Link to this definition"></a></dt>
+<dd><p>Magnetic field point at which the time spectrum is evaluated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.Parameters.prodel">
+<span class="sig-name descname"><span class="pre">prodel</span></span><a class="headerlink" href="#tna.classes.Parameters.prodel" title="Link to this definition"></a></dt>
+<dd><p>If True, swaps real and imaginary parts of the signal during loading.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.Parameters.two_d">
+<span class="sig-name descname"><span class="pre">two_d</span></span><a class="headerlink" href="#tna.classes.Parameters.two_d" title="Link to this definition"></a></dt>
+<dd><p>If True, treats the dataset as two-dimensional (field-resolved).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.Parameters.path">
+<span class="sig-name descname"><span class="pre">path</span></span><a class="headerlink" href="#tna.classes.Parameters.path" title="Link to this definition"></a></dt>
+<dd><p>Absolute path to experimental data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Path or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.Parameters.baseline_correction">
+<span class="sig-name descname"><span class="pre">baseline_correction</span></span><a class="headerlink" href="#tna.classes.Parameters.baseline_correction" title="Link to this definition"></a></dt>
+<dd><p>Enables polynomial baseline correction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.Parameters.baseline_correction_deg">
+<span class="sig-name descname"><span class="pre">baseline_correction_deg</span></span><a class="headerlink" href="#tna.classes.Parameters.baseline_correction_deg" title="Link to this definition"></a></dt>
+<dd><p>Degree of the polynomial used for baseline correction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.Parameters.reconstruction">
+<span class="sig-name descname"><span class="pre">reconstruction</span></span><a class="headerlink" href="#tna.classes.Parameters.reconstruction" title="Link to this definition"></a></dt>
+<dd><p>Enables signal reconstruction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.Parameters.mean_subtraction">
+<span class="sig-name descname"><span class="pre">mean_subtraction</span></span><a class="headerlink" href="#tna.classes.Parameters.mean_subtraction" title="Link to this definition"></a></dt>
+<dd><p>Enables subtraction of the mean signal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.Parameters.wdw_chebwin">
+<span class="sig-name descname"><span class="pre">wdw_chebwin</span></span><a class="headerlink" href="#tna.classes.Parameters.wdw_chebwin" title="Link to this definition"></a></dt>
+<dd><p>Applies a Dolph-Chebyshev window function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.Parameters.chebwin_attenuation">
+<span class="sig-name descname"><span class="pre">chebwin_attenuation</span></span><a class="headerlink" href="#tna.classes.Parameters.chebwin_attenuation" title="Link to this definition"></a></dt>
+<dd><p>Attenuation parameter (dB) for the Chebyshev window.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.Parameters.wdw_hamming">
+<span class="sig-name descname"><span class="pre">wdw_hamming</span></span><a class="headerlink" href="#tna.classes.Parameters.wdw_hamming" title="Link to this definition"></a></dt>
+<dd><p>Applies a Hamming window function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.Parameters.hamming_window_coefficient">
+<span class="sig-name descname"><span class="pre">hamming_window_coefficient</span></span><a class="headerlink" href="#tna.classes.Parameters.hamming_window_coefficient" title="Link to this definition"></a></dt>
+<dd><p>Coefficient defining the Hamming window shape (default ~0.54).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.Parameters.wdw_kaiser">
+<span class="sig-name descname"><span class="pre">wdw_kaiser</span></span><a class="headerlink" href="#tna.classes.Parameters.wdw_kaiser" title="Link to this definition"></a></dt>
+<dd><p>Applies a Kaiser window function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.Parameters.kaiser_window_shape_parameter">
+<span class="sig-name descname"><span class="pre">kaiser_window_shape_parameter</span></span><a class="headerlink" href="#tna.classes.Parameters.kaiser_window_shape_parameter" title="Link to this definition"></a></dt>
+<dd><p>Shape parameter of the Kaiser window.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.Parameters.wdw_sinebell">
+<span class="sig-name descname"><span class="pre">wdw_sinebell</span></span><a class="headerlink" href="#tna.classes.Parameters.wdw_sinebell" title="Link to this definition"></a></dt>
+<dd><p>Applies a sine-bell window function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.Parameters.sinebell_phase_shift">
+<span class="sig-name descname"><span class="pre">sinebell_phase_shift</span></span><a class="headerlink" href="#tna.classes.Parameters.sinebell_phase_shift" title="Link to this definition"></a></dt>
+<dd><p>Phase shift applied to the sine-bell window.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.Parameters.wdw_lorentz_gauss">
+<span class="sig-name descname"><span class="pre">wdw_lorentz_gauss</span></span><a class="headerlink" href="#tna.classes.Parameters.wdw_lorentz_gauss" title="Link to this definition"></a></dt>
+<dd><p>Applies a combined Lorentz-Gauss window function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.Parameters.tau">
+<span class="sig-name descname"><span class="pre">tau</span></span><a class="headerlink" href="#tna.classes.Parameters.tau" title="Link to this definition"></a></dt>
+<dd><p>Lorentzian parameter (related to FWHH via 1/(pi*tau)).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.Parameters.sigma">
+<span class="sig-name descname"><span class="pre">sigma</span></span><a class="headerlink" href="#tna.classes.Parameters.sigma" title="Link to this definition"></a></dt>
+<dd><p>Gaussian width parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.Parameters.zero_filling">
+<span class="sig-name descname"><span class="pre">zero_filling</span></span><a class="headerlink" href="#tna.classes.Parameters.zero_filling" title="Link to this definition"></a></dt>
+<dd><p>Enables zero-filling before Fourier transformation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.Parameters.zero_filling_factor">
+<span class="sig-name descname"><span class="pre">zero_filling_factor</span></span><a class="headerlink" href="#tna.classes.Parameters.zero_filling_factor" title="Link to this definition"></a></dt>
+<dd><p>Factor by which the signal length is extended with zeros.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.Parameters.reference_freq">
+<span class="sig-name descname"><span class="pre">reference_freq</span></span><a class="headerlink" href="#tna.classes.Parameters.reference_freq" title="Link to this definition"></a></dt>
+<dd><p>Enables correction to a reference frequency.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.Parameters.reference_freq_value">
+<span class="sig-name descname"><span class="pre">reference_freq_value</span></span><a class="headerlink" href="#tna.classes.Parameters.reference_freq_value" title="Link to this definition"></a></dt>
+<dd><p>Reference frequency used for frequency axis correction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tna.classes.Parameters.save_location">
+<span class="sig-name descname"><span class="pre">save_location</span></span><a class="headerlink" href="#tna.classes.Parameters.save_location" title="Link to this definition"></a></dt>
+<dd><p>Path where processed results are stored.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Notes</p>
+<p>This class is validates the type of the fields (validate_assignment=”True”)
+and disallows additional attributes (extra=”forbid”) to ensure
+reproducibility and prevent silent configuration errors in scientific
+processing pipelines.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tna.classes.Parameters.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tna.classes.Parameters.__init__" title="Link to this definition"></a></dt>
+<dd><p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises [<cite>ValidationError</cite>][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.</p>
+<p><cite>self</cite> is explicitly positional-only to allow <cite>self</cite> as a field name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>Any</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tna.classes.Parameters.__init__" title="tna.classes.Parameters.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(**data)</p></td>
+<td><p>Create a new model by parsing and validating input data from keyword arguments.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">construct</span></code>([_fields_set])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code>(*[, include, exclude, update, deep])</p></td>
+<td><p>Returns a copy of the model.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>(*[, include, exclude, by_alias, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_orm</span></code>(obj)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">json</span></code>(*[, include, exclude, by_alias, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_construct</span></code>([_fields_set])</p></td>
+<td><p>Creates a new instance of the <cite>Model</cite> class with validated data.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_copy</span></code>(*[, update, deep])</p></td>
+<td><p>!!! abstract &quot;Usage Documentation&quot;</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_dump</span></code>(*[, mode, include, exclude, ...])</p></td>
+<td><p>!!! abstract &quot;Usage Documentation&quot;</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_dump_json</span></code>(*[, indent, ensure_ascii, ...])</p></td>
+<td><p>!!! abstract &quot;Usage Documentation&quot;</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_json_schema</span></code>([by_alias, ref_template, ...])</p></td>
+<td><p>Generates a JSON schema for a model class.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_parametrized_name</span></code>(params)</p></td>
+<td><p>Compute the class name for parametrizations of generic classes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_post_init</span></code>(context, /)</p></td>
+<td><p>Override this method to perform additional initialization after <cite>__init__</cite> and <cite>model_construct</cite>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_rebuild</span></code>(*[, force, raise_errors, ...])</p></td>
+<td><p>Try to rebuild the pydantic-core schema for the model.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_validate</span></code>(obj, *[, strict, extra, ...])</p></td>
+<td><p>Validate a pydantic model instance.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_validate_json</span></code>(json_data, *[, strict, ...])</p></td>
+<td><p>!!! abstract &quot;Usage Documentation&quot;</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_validate_strings</span></code>(obj, *[, strict, ...])</p></td>
+<td><p>Validate the given object with string data against the Pydantic model.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_file</span></code>(path, *[, content_type, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_obj</span></code>(obj)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_raw</span></code>(b, *[, content_type, encoding, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">schema</span></code>([by_alias, ref_template])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">schema_json</span></code>(*[, by_alias, ref_template])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_forward_refs</span></code>(**localns)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate</span></code>(value)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_computed_fields</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_config</span></code></p></td>
+<td><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_extra</span></code></p></td>
+<td><p>Get extra fields set during validation.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_fields</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_fields_set</span></code></p></td>
+<td><p>Returns the set of fields that have been explicitly set on this model instance.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tna.classes.Parameters.current_time" title="tna.classes.Parameters.current_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_time</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tna.classes.Parameters.current_field" title="tna.classes.Parameters.current_field"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_field</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tna.classes.Parameters.prodel" title="tna.classes.Parameters.prodel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prodel</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tna.classes.Parameters.two_d" title="tna.classes.Parameters.two_d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">two_d</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tna.classes.Parameters.path" title="tna.classes.Parameters.path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">path</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tna.classes.Parameters.baseline_correction" title="tna.classes.Parameters.baseline_correction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">baseline_correction</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tna.classes.Parameters.baseline_correction_deg" title="tna.classes.Parameters.baseline_correction_deg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">baseline_correction_deg</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tna.classes.Parameters.reconstruction" title="tna.classes.Parameters.reconstruction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reconstruction</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tna.classes.Parameters.mean_subtraction" title="tna.classes.Parameters.mean_subtraction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mean_subtraction</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tna.classes.Parameters.wdw_chebwin" title="tna.classes.Parameters.wdw_chebwin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wdw_chebwin</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tna.classes.Parameters.chebwin_attenuation" title="tna.classes.Parameters.chebwin_attenuation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chebwin_attenuation</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tna.classes.Parameters.wdw_hamming" title="tna.classes.Parameters.wdw_hamming"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wdw_hamming</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tna.classes.Parameters.hamming_window_coefficient" title="tna.classes.Parameters.hamming_window_coefficient"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hamming_window_coefficient</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tna.classes.Parameters.wdw_kaiser" title="tna.classes.Parameters.wdw_kaiser"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wdw_kaiser</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tna.classes.Parameters.kaiser_window_shape_parameter" title="tna.classes.Parameters.kaiser_window_shape_parameter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kaiser_window_shape_parameter</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tna.classes.Parameters.wdw_sinebell" title="tna.classes.Parameters.wdw_sinebell"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wdw_sinebell</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tna.classes.Parameters.sinebell_phase_shift" title="tna.classes.Parameters.sinebell_phase_shift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sinebell_phase_shift</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tna.classes.Parameters.wdw_lorentz_gauss" title="tna.classes.Parameters.wdw_lorentz_gauss"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wdw_lorentz_gauss</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tna.classes.Parameters.tau" title="tna.classes.Parameters.tau"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tau</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tna.classes.Parameters.sigma" title="tna.classes.Parameters.sigma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sigma</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tna.classes.Parameters.zero_filling" title="tna.classes.Parameters.zero_filling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zero_filling</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tna.classes.Parameters.zero_filling_factor" title="tna.classes.Parameters.zero_filling_factor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zero_filling_factor</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tna.classes.Parameters.reference_freq" title="tna.classes.Parameters.reference_freq"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reference_freq</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tna.classes.Parameters.reference_freq_value" title="tna.classes.Parameters.reference_freq_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reference_freq_value</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tna.classes.Parameters.save_location" title="tna.classes.Parameters.save_location"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_location</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tna.classes.TransientNutations.html" class="btn btn-neutral float-left" title="tna.classes.TransientNutations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../functions.html" class="btn btn-neutral float-right" title="functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 Theresia Quintes.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

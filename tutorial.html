@@ -1,0 +1,254 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutorial &mdash; TNA - Transient Nutation Analysis 2026 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+
+  
+    <link rel="canonical" href="https://theresiaquintes.github.io/tna/tutorial.html" />
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=c6db1b62"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Processing theory" href="processing_theory.html" />
+    <link rel="prev" title="Getting started" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            TNA - Transient Nutation Analysis
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Getting started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#imports">Imports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-1-two-dimensional-analysis">Example 1: Two-dimensional analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-2-one-dimensional-analysis">Example 2: One-dimensional analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#notes">Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#further-information">Further information</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Data processing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="processing_theory.html">Processing theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="processing_pipeline.html">Processing pipeline</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="classes.html">classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui_start.html">start_gui</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui_signals.html">gui_controller</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">TNA - Transient Nutation Analysis</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/tutorial.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Getting started" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="processing_theory.html" class="btn btn-neutral float-right" title="Processing theory" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tutorial">
+<h1>Tutorial<a class="headerlink" href="#tutorial" title="Link to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>This tutorial demonstrates how to use the transient nutation analysis
+package in a Python script.</p>
+<p>The workflow consists of:</p>
+<ul class="simple">
+<li><p>defining analysis parameters</p></li>
+<li><p>running the processing pipeline</p></li>
+<li><p>visualising the results</p></li>
+</ul>
+</section>
+<section id="imports">
+<h2>Imports<a class="headerlink" href="#imports" title="Link to this heading"></a></h2>
+<p>Start by importing the required modules:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tna.classes</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cl</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tna.functions</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fun</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+</pre></div>
+</div>
+<p>Define the data path:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">BASE_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>
+</pre></div>
+</div>
+</section>
+<section id="example-1-two-dimensional-analysis">
+<h2>Example 1: Two-dimensional analysis<a class="headerlink" href="#example-1-two-dimensional-analysis" title="Link to this heading"></a></h2>
+<p>In this example, a full 2D dataset is processed and transformed into the
+frequency domain.</p>
+<ol class="arabic">
+<li><p>Define parameters</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">Parameters</span><span class="p">(</span>
+    <span class="n">two_d</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">path</span><span class="o">=</span><span class="n">BASE_DIR</span> <span class="o">/</span> <span class="s2">&quot;data&quot;</span> <span class="o">/</span> <span class="s2">&quot;your_dataset.DSC&quot;</span><span class="p">,</span>
+    <span class="n">baseline_correction</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">reconstruction</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">mean_subtraction</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">wdw_hamming</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">hamming_window_coefficient</span><span class="o">=</span><span class="mf">0.54</span><span class="p">,</span>
+    <span class="n">zero_filling</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">zero_filling_factor</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">reference_freq</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">reference_freq_value</span><span class="o">=</span><span class="mf">1e7</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Run the analysis</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">trans_nut</span> <span class="o">=</span> <span class="n">fun</span><span class="o">.</span><span class="n">run_tna_2d</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Plot a frequency slice</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">trans_nut</span><span class="o">.</span><span class="n">freq</span><span class="p">,</span> <span class="n">trans_nut</span><span class="o">.</span><span class="n">freq_signal</span><span class="p">[</span><span class="mi">99</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="example-2-one-dimensional-analysis">
+<h2>Example 2: One-dimensional analysis<a class="headerlink" href="#example-2-one-dimensional-analysis" title="Link to this heading"></a></h2>
+<p>In this example, a single field slice is selected from a 2D dataset and
+processed as a one-dimensional signal.</p>
+<ol class="arabic">
+<li><p>Define parameters</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">Parameters</span><span class="p">(</span>
+    <span class="n">two_d</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">path</span><span class="o">=</span><span class="n">BASE_DIR</span> <span class="o">/</span> <span class="s2">&quot;data&quot;</span> <span class="o">/</span> <span class="s2">&quot;your_dataset.DSC&quot;</span><span class="p">,</span>
+    <span class="n">baseline_correction</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">reconstruction</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">mean_subtraction</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">wdw_hamming</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">hamming_window_coefficient</span><span class="o">=</span><span class="mf">0.54</span><span class="p">,</span>
+    <span class="n">zero_filling</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">zero_filling_factor</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">reference_freq</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">reference_freq_value</span><span class="o">=</span><span class="mf">1e7</span><span class="p">,</span>
+    <span class="n">current_field</span><span class="o">=</span><span class="mi">12020</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Run the analysis</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">trans_nut</span> <span class="o">=</span> <span class="n">fun</span><span class="o">.</span><span class="n">run_tna</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Plot the spectrum</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">trans_nut</span><span class="o">.</span><span class="n">freq</span><span class="p">,</span> <span class="n">trans_nut</span><span class="o">.</span><span class="n">freq_signal</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>The parameter object controls the entire processing pipeline.</p></li>
+<li><p>Processing steps (e.g. reconstruction, window functions) are enabled
+via boolean flags.</p></li>
+<li><p>The order of processing steps follows the internal pipeline definition.</p></li>
+<li><p>The output object contains both time-domain and frequency-domain data.</p></li>
+</ul>
+</section>
+<section id="further-information">
+<h2>Further information<a class="headerlink" href="#further-information" title="Link to this heading"></a></h2>
+<p>For a complete description of available parameters and data structures,
+see <a class="reference internal" href="classes.html"><span class="doc">classes</span></a>.</p>
+<p>The <a class="reference internal" href="generated/tna.classes.Parameters.html#tna.classes.Parameters" title="tna.classes.Parameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">tna.classes.Parameters</span></code></a> class defines all configurable options
+for the processing pipeline, while <a class="reference internal" href="generated/tna.classes.TransientNutations.html#tna.classes.TransientNutations" title="tna.classes.TransientNutations"><code class="xref py py-class docutils literal notranslate"><span class="pre">tna.classes.TransientNutations</span></code></a>
+provides access to the resulting data.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Getting started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="processing_theory.html" class="btn btn-neutral float-right" title="Processing theory" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 Theresia Quintes.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

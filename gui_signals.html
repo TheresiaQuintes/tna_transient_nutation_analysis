@@ -1,0 +1,171 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>gui_controller &mdash; TNA - Transient Nutation Analysis 2026 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+
+  
+    <link rel="canonical" href="https://theresiaquintes.github.io/tna/gui_signals.html" />
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=c6db1b62"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="tna.gui.gui_signals.TNAController" href="generated/tna.gui.gui_signals.TNAController.html" />
+    <link rel="prev" title="main" href="generated/tna.gui.start.main.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            TNA - Transient Nutation Analysis
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Data processing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="processing_theory.html">Processing theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="processing_pipeline.html">Processing pipeline</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Modules</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="classes.html">classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui_start.html">start_gui</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">gui_controller</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contents">Contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/tna.gui.gui_signals.TNAController.html">tna.gui.gui_signals.TNAController</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tna.gui.gui_signals.safe_slot.html">safe_slot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/tna.gui.gui_signals.reset_plot.html">reset_plot</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">TNA - Transient Nutation Analysis</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">gui_controller</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/gui_signals.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="generated/tna.gui.start.main.html" class="btn btn-neutral float-left" title="main" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="generated/tna.gui.gui_signals.TNAController.html" class="btn btn-neutral float-right" title="tna.gui.gui_signals.TNAController" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="gui-controller">
+<h1>gui_controller<a class="headerlink" href="#gui-controller" title="Link to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>This module implements the controller layer of the TNA graphical user
+interface.</p>
+<p>It connects the Qt-based view with the data model and manages all user
+interactions, including:</p>
+<ul class="simple">
+<li><p>data loading and visualisation</p></li>
+<li><p>processing pipeline execution</p></li>
+<li><p>parameter updates from the GUI</p></li>
+<li><p>plot management using Matplotlib</p></li>
+</ul>
+<p>The controller follows a model–view–controller (MVC)-like structure, where
+the <code class="docutils literal notranslate"><span class="pre">TNAController</span></code> acts as the central interface between user actions and
+data processing.</p>
+</section>
+<section id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/tna.gui.gui_signals.TNAController.html#tna.gui.gui_signals.TNAController" title="tna.gui.gui_signals.TNAController"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tna.gui.gui_signals.TNAController</span></code></a>(view)</p></td>
+<td><p>Controller class for the TNA GUI application.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/tna.gui.gui_signals.safe_slot.html#tna.gui.gui_signals.safe_slot" title="tna.gui.gui_signals.safe_slot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tna.gui.gui_signals.safe_slot</span></code></a>(func)</p></td>
+<td><p>Decorator for safe execution of Qt slots.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/tna.gui.gui_signals.reset_plot.html#tna.gui.gui_signals.reset_plot" title="tna.gui.gui_signals.reset_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tna.gui.gui_signals.reset_plot</span></code></a>(fig, ax)</p></td>
+<td><p>Resets a Matplotlib figure and creates a new axis.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="generated/tna.gui.start.main.html" class="btn btn-neutral float-left" title="main" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="generated/tna.gui.gui_signals.TNAController.html" class="btn btn-neutral float-right" title="tna.gui.gui_signals.TNAController" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 Theresia Quintes.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

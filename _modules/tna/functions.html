@@ -1,0 +1,324 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tna.functions &mdash; TNA - Transient Nutation Analysis 2026 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+    <link rel="canonical" href="https://theresiaquintes.github.io/tna/_modules/tna/functions.html" />
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=c6db1b62"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            TNA - Transient Nutation Analysis
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Data processing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../processing_theory.html">Processing theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processing_pipeline.html">Processing pipeline</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../classes.html">classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../functions.html">functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gui_start.html">start_gui</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gui_signals.html">gui_controller</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">TNA - Transient Nutation Analysis</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">tna.functions</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for tna.functions</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tna.classes</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cl</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<div class="viewcode-block" id="run_tna">
+<a class="viewcode-back" href="../../generated/tna.functions.run_tna.html#tna.functions.run_tna">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_tna</span><span class="p">(</span><span class="n">data_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">cl</span><span class="o">.</span><span class="n">Parameters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cl</span><span class="o">.</span><span class="n">TransientNutations</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Run transient nutation analysis for a single dataset (1D or selected slice of 2D).</span>
+
+<span class="sd">    This function loads the experimental data, applies the selected processing</span>
+<span class="sd">    steps, performs a Fourier transformation, and returns the processed data</span>
+<span class="sd">    object.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_path : Path</span>
+<span class="sd">        Absolute path to the experimental data without suffix.</span>
+<span class="sd">    params : cl.Parameters</span>
+<span class="sd">        Parameter object controlling data loading, processing pipeline, and</span>
+<span class="sd">        Fourier transformation settings.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : cl.TransientNutations</span>
+<span class="sd">        Processed data object containing time-domain and frequency-domain</span>
+<span class="sd">        results.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - If ``params.two_d`` is True, a 2D dataset is loaded and a single field</span>
+<span class="sd">      slice is selected using ``params.current_field``.</span>
+<span class="sd">    - Processing steps are applied according to the flags defined in ``params``.</span>
+<span class="sd">    - Fourier transformation parameters are resolved via</span>
+<span class="sd">      ``_resolve_fourier_params``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">TransientNutations</span><span class="p">()</span>
+
+    <span class="c1"># loading</span>
+    <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">two_d</span><span class="p">:</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">load_2d</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="n">params</span><span class="o">.</span><span class="n">prodel</span><span class="p">)</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">choose_field</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">current_field</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">load_1d</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="n">params</span><span class="o">.</span><span class="n">prodel</span><span class="p">)</span>
+
+    <span class="c1"># processing</span>
+    <span class="n">_apply_processing</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+
+    <span class="c1"># fourier transformation</span>
+    <span class="n">zf</span><span class="p">,</span> <span class="n">rf</span> <span class="o">=</span> <span class="n">_resolve_fourier_params</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">fourier_transformation</span><span class="p">(</span><span class="n">zf</span><span class="p">,</span> <span class="n">rf</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="run_tna_2d">
+<a class="viewcode-back" href="../../generated/tna.functions.run_tna_2d.html#tna.functions.run_tna_2d">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_tna_2d</span><span class="p">(</span><span class="n">data_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">cl</span><span class="o">.</span><span class="n">Parameters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cl</span><span class="o">.</span><span class="n">TransientNutations</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Run transient nutation analysis for a full 2D dataset.</span>
+
+<span class="sd">    This function processes each field slice of a 2D transient nutation dataset</span>
+<span class="sd">    individually, applies the selected processing steps, performs Fourier</span>
+<span class="sd">    transformation, and returns the resulting frequency-domain spectra.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_path : Path</span>
+<span class="sd">        Absolute path to the experimental data without suffix.</span>
+<span class="sd">    params : cl.Parameters</span>
+<span class="sd">        Parameter object controlling processing steps and Fourier transformation.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : cl.TransientNutations</span>
+<span class="sd">        Data object where ``data.freq_signal`` contains the 2D array of Fourier-</span>
+<span class="sd">        transformed spectra with shape (n_fields, n_frequencies).</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - The dataset is loaded using ``load_2d``.</span>
+<span class="sd">    - Each field slice is processed independently using the same parameter set.</span>
+<span class="sd">    - The resulting spectra are stacked into a NumPy array and stored in</span>
+<span class="sd">      ``data.freq_signal``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">TransientNutations</span><span class="p">()</span>
+
+    <span class="c1"># loading</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">load_2d</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="n">params</span><span class="o">.</span><span class="n">prodel</span><span class="p">)</span>
+
+    <span class="c1"># process &amp; transform each field slice</span>
+    <span class="n">ft_spc</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">field</span><span class="p">)):</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">t_signal</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">spc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">time</span>
+
+        <span class="n">_apply_processing</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+
+        <span class="n">zf</span><span class="p">,</span> <span class="n">rf</span> <span class="o">=</span> <span class="n">_resolve_fourier_params</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">fourier_transformation</span><span class="p">(</span><span class="n">zf</span><span class="p">,</span> <span class="n">rf</span><span class="p">)</span>
+
+        <span class="n">ft_spc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">freq_signal</span><span class="p">)</span>
+
+    <span class="n">data</span><span class="o">.</span><span class="n">freq_signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ft_spc</span><span class="p">)</span>
+    <span class="k">return</span>  <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="_resolve_fourier_params">
+<a class="viewcode-back" href="../../generated/tna.functions._resolve_fourier_params.html#tna.functions._resolve_fourier_params">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">_resolve_fourier_params</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">cl</span><span class="o">.</span><span class="n">Parameters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Resolve effective Fourier transformation parameters.</span>
+
+<span class="sd">    This function converts boolean control flags in the parameter object into</span>
+<span class="sd">    numerical values required for the Fourier transformation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    params : cl.Parameters</span>
+<span class="sd">        Parameter object containing Fourier-related settings.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    zero_filling : int</span>
+<span class="sd">        Zero-filling factor. Returns ``params.zero_filling_factor`` if</span>
+<span class="sd">        zero-filling is enabled, otherwise 1.</span>
+<span class="sd">    reference_freq : float</span>
+<span class="sd">        Reference frequency value. Returns ``params.reference_freq_value`` if</span>
+<span class="sd">        reference frequency correction is enabled, otherwise 1.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This function separates user intent (boolean flags) from numerical values</span>
+<span class="sd">    required by the processing backend.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">zero_filling_factor</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">zero_filling_factor</span> <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">zero_filling</span> <span class="k">else</span> <span class="mi">1</span>
+    <span class="n">reference_freq_value</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">reference_freq_value</span> <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">reference_freq</span> <span class="k">else</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">zero_filling_factor</span><span class="p">,</span> <span class="n">reference_freq_value</span></div>
+
+
+<div class="viewcode-block" id="_apply_processing">
+<a class="viewcode-back" href="../../generated/tna.functions._apply_processing.html#tna.functions._apply_processing">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">_apply_processing</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">cl</span><span class="o">.</span><span class="n">TransientNutations</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">cl</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply processing steps to transient nutation data.</span>
+
+<span class="sd">    This function executes a sequence of signal processing operations on the</span>
+<span class="sd">    provided data object based on the flags and parameters defined in ``params``.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : cl.TransientNutations</span>
+<span class="sd">        Data object containing the transient nutation signal to be processed.</span>
+<span class="sd">    params : cl.Parameters</span>
+<span class="sd">        Parameter object specifying which processing steps to apply and their</span>
+<span class="sd">        corresponding settings.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">        The function modifies the ``data`` object in place.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The following processing steps may be applied (depending on ``params``):</span>
+
+<span class="sd">    - Baseline correction</span>
+<span class="sd">    - Signal reconstruction</span>
+<span class="sd">    - Window functions:</span>
+<span class="sd">        * Dolph-Chebyshev</span>
+<span class="sd">        * Hamming</span>
+<span class="sd">        * Kaiser</span>
+<span class="sd">        * Sinebell</span>
+<span class="sd">        * Lorentz-Gauss</span>
+<span class="sd">    - Mean subtraction</span>
+
+<span class="sd">    The order of operations follows the sequence defined in this function and</span>
+<span class="sd">    may influence the final result.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># TODO</span>
+    <span class="c1">#  Reihenfolge variabel machen? -&gt; Finde Heraus, ob die Reihenfolge überhaupt variabel</span>
+    <span class="c1">#  sein darf oder ob das hier die einzig korrekte Reihenfolge ist</span>
+
+    <span class="n">processing_pipeline</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">baseline_correction</span><span class="p">,</span>
+            <span class="k">lambda</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">baseline_correction</span><span class="p">(</span><span class="n">deg</span><span class="o">=</span><span class="n">params</span><span class="o">.</span><span class="n">baseline_correction_deg</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">reconstruction</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">reconstruction</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">wdw_chebwin</span><span class="p">,</span>
+            <span class="k">lambda</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">wdw_chebwin</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">chebwin_attenuation</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">wdw_hamming</span><span class="p">,</span>
+            <span class="k">lambda</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">wdw_hamming</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">hamming_window_coefficient</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">wdw_kaiser</span><span class="p">,</span>
+            <span class="k">lambda</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">wdw_kaiser</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kaiser_window_shape_parameter</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">wdw_sinebell</span><span class="p">,</span>
+            <span class="k">lambda</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">wdw_sinebell</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">sinebell_phase_shift</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">wdw_lorentz_gauss</span><span class="p">,</span>
+            <span class="k">lambda</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">wdw_lorentz_gauss</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span> <span class="n">params</span><span class="o">.</span><span class="n">sigma</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">mean_subtraction</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">mean_subtraction</span><span class="p">),</span>
+    <span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">enabled</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">processing_pipeline</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">enabled</span><span class="p">:</span>
+            <span class="n">step</span><span class="p">()</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 Theresia Quintes.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
