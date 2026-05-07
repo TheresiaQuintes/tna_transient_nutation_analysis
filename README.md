@@ -30,6 +30,9 @@ for interactive data analysis.
 - `pip`
 
 ### Setup
+```pip install transient-nutation-analysis```
+
+or via download from GitHub
 
 ```bash
 git clone https://github.com/TheresiaQuintes/tna_transient_nutation_analysis

@@ -52,23 +52,31 @@ It is recommended to install the package in a virtual environment.
 
       conda activate tna
 
-3. Clone the repository
+3.a Install from PyPi
 
    .. code-block:: bash
 
-      git clone https://github.com/TheresiaQuintes/tna_transient_nutation_analysis
+      pip install transient-nutation-analysis
 
-4. Navigate to the project directory
+3.b Install from GitHub
 
-   .. code-block:: bash
+    Clone the repository
 
-      cd tna_transient_nutation_analysis
+     .. code-block:: bash
 
-5. Install the package
+       git clone https://github.com/TheresiaQuintes/tna_transient_nutation_analysis
 
-   .. code-block:: bash
+    Navigate to the project directory
 
-      pip install .
+     .. code-block:: bash
+
+          cd tna_transient_nutation_analysis
+
+    Install the package
+
+      .. code-block:: bash
+
+         pip install .
 
 Running the application
 -----------------------
