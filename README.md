@@ -69,7 +69,7 @@ plt.show()
 Start the graphical interface with:
 
 ```bash
-tna
+tna-gui
 ```
 ---
 ## Documentation

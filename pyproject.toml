@@ -24,4 +24,4 @@ where = ["src"]
 include = ["tna*"]
 
 [project.scripts]
-tna = "tna.gui.start:main"
+tna-gui = "tna.gui.start:main"

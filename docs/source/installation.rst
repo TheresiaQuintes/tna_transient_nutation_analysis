@@ -76,4 +76,4 @@ After installation, the graphical user interface can be started via:
 
 .. code-block:: bash
 
-   tna
+   tna-gui
